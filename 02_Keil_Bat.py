@@ -23,7 +23,9 @@ except ImportError:
     import xml.etree.ElementTree as ET
 
 D_uvprojx = ".uvprojx"
-Ref_file = "Ref_Dir.uvprojx"
+D_uvoptx = ".uvoptx"
+Ref_tx_file = "Ref_Dir.uvoptx"
+Ref_jx_file = "Ref_Dir.uvprojx"
 Des_file = "CustomProject.xml"
 Ini_file = "JLinkSettings.ini"
 Jscript_file = "ClouderSemi_CR600.JLinkScript"
@@ -34,7 +36,8 @@ Exclude_F2 = "协议栈demo实物连接图"
 Ref_Dir_F = "Ref_Dir"
 
 CurrDir = os.getcwd()
-Uvprojx_Dir = os.path.join(CurrDir,Ref_Dir_F,Keil_F,Ref_file)
+Uvoptx_Dir = os.path.join(CurrDir,Ref_Dir_F,Keil_F,Ref_tx_file)
+Uvprojx_Dir = os.path.join(CurrDir,Ref_Dir_F,Keil_F,Ref_jx_file)
 Ini_Dir = os.path.join(CurrDir,Ref_Dir_F,Keil_F,Ini_file)
 Jscript_Dir = os.path.join(CurrDir,Ref_Dir_F,Keil_F,Jscript_file)
 
@@ -232,6 +235,7 @@ def Clear_file(path,files):
             #add .ini and .jlinkscript in Keil folder
             shutil.copyfile(Ini_Dir,keil_dir+"\\"+Ini_file)
             shutil.copyfile(Jscript_Dir,keil_dir+"\\"+Jscript_file)
+            shutil.copyfile(Uvoptx_Dir,keil_dir+"\\"+files+D_uvoptx)
             shutil.copyfile(Uvprojx_Dir,keil_dir+"\\"+files+D_uvprojx)
             
 def main():
