@@ -42,6 +42,7 @@ Ini_Dir = os.path.join(CurrDir,Ref_Dir_F,Keil_F,Ini_file)
 Jscript_Dir = os.path.join(CurrDir,Ref_Dir_F,Keil_F,Jscript_file)
 
 def Add_Content(files_elem, content):
+    'add content in uvoptx'
     file_elem = Element("File")
     file_name_elem = Element("FileName")
     file_type_elem = Element("FileType")
