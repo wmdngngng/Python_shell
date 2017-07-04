@@ -13,14 +13,17 @@
 import serial
 import serial.tools.list_ports
 
-PortList = list(serial.tools.list_ports.comports())
-if len(PortList) <= 0:
+PortLists = list(serial.tools.list_ports.comports())
+
+if len(PortLists) <= 0:
     print ("the serial port can not find!")
 else:
-    print ("serial port num:", len(PortList))
+    for portlist in PortLists:
+        print ("port:",portlist)
+    '''print ("serial port num:", len(PortList))
     portlist0 = list(PortList[0])
     portserial = portlist0[0]
     print (portserial)
     ser = serial.Serial(portserial,9600,timeout = 60)
     print ("The port is really use>",ser.name)
-    ser.write(b"Hello World!\r\n")
+    ser.write(b"Hello World!\r\n")'''
