@@ -221,7 +221,31 @@ def Edit_Uvprojx(path, file):
         CreatedNode(uvprojx_root, file_d, files_path,2)
             
     uvprojx_tree.write(uvprojx_dir,encoding='UTF-8',xml_declaration=True )   
-                              
+
+def Edit_Uvprojx_SDK(path, file):
+    'The function is add the xxx_sdk.uvoptx and xxx_sdk.uvprojx'
+    keil_dir = os.path.join(path, Keil_F)
+    if os.path.exists(keil_dir):
+        file_tx_dir = os.path.join(keil_dir,file+D_uvoptx);
+        file_jx_dir = os.path.join(keil_dir,file+D_uvprojx);
+        shutil.copyfile(file_tx_dir, keil_dir+"\\"+file+"_SDK"+D_uvoptx)
+        shutil.copyfile(file_jx_dir, keil_dir+"\\"+file+"_SDK"+D_uvprojx)
+        
+        sdk_uvprojx_dir = os.path.join(keil_dir,file+"_SDK"+D_uvprojx)
+        sdk_uvprojx_tree = ET.parse(sdk_uvprojx_dir)
+        sdk_uvprojx_root = sdk_uvprojx_tree.getroot()
+        for child in sdk_uvprojx_root:
+            for groups in child.iter("Groups"):  #seach the label "Groups"
+                for group in groups.iter("Group"):
+                    for groupname in group.iter("GroupName"):  #seach the label "GroupName"
+                        if groupname.text == "cr600_driver":
+                            for files in group.iter("Files"):
+                                for file in files:
+                                    for file_type in file:
+                                        print("17",file_type.text)
+                                        file.remove(file_type)
+        
+    
 def Clear_file(path,files):
     print ("Clear_file: "+path)
     keil_dir = os.path.join(path, Keil_F)
@@ -248,6 +272,7 @@ def main():
                 print ("main: "+file1)   
                 Clear_file(file2_dir,file1)
                 Edit_Uvprojx(file2_dir, file1) #cd Keil floder
+                Edit_Uvprojx_SDK(file2_dir, file1)
  
 if __name__ == "__main__":
     main()
