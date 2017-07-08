@@ -311,42 +311,42 @@ p, li { white-space: pre-wrap; }
     </property>
     <layout class="QGridLayout" name="gridLayout">
      <item row="1" column="1">
-      <widget class="QPushButton" name="pushButton_13">
+      <widget class="QPushButton" name="pushButton_gy">
        <property name="text">
         <string>关于</string>
        </property>
       </widget>
      </item>
      <item row="0" column="0">
-      <widget class="QPushButton" name="pushButton_11">
+      <widget class="QPushButton" name="pushButton_tz">
        <property name="text">
         <string>通知对话框</string>
        </property>
       </widget>
      </item>
      <item row="3" column="0">
-      <widget class="QPushButton" name="pushButton_14">
+      <widget class="QPushButton" name="pushButton_jg">
        <property name="text">
         <string>警告对话框</string>
        </property>
       </widget>
      </item>
      <item row="1" column="0">
-      <widget class="QPushButton" name="pushButton_12">
+      <widget class="QPushButton" name="pushButton_xw">
        <property name="text">
         <string>询问对话框</string>
        </property>
       </widget>
      </item>
      <item row="3" column="1">
-      <widget class="QPushButton" name="pushButton_15">
+      <widget class="QPushButton" name="pushButton_ab">
        <property name="text">
         <string>AboutQt</string>
        </property>
       </widget>
      </item>
      <item row="0" column="1">
-      <widget class="QPushButton" name="pushButton_16">
+      <widget class="QPushButton" name="pushButton_yz">
        <property name="text">
         <string>严重警告</string>
        </property>

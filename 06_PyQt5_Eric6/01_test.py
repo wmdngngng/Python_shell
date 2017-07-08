@@ -5,7 +5,7 @@ Module implementing MainWindow.
 """
 
 from PyQt5.QtCore import pyqtSlot
-from PyQt5.QtWidgets import QMainWindow
+from PyQt5.QtWidgets import QMainWindow, QMessageBox
 from PyQt5 import QtWidgets, QtCore
 
 from Ui_01_test import Ui_MainWindow
@@ -143,6 +143,58 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         print(value*10.3)
         self.horizontalSlider.setValue(value)
         self.verticalSlider.setValue(value)
+    
+    @pyqtSlot()
+    def on_pushButton_gy_clicked(self):
+        """
+        Slot documentation goes here.
+        """
+        # TODO: not implemented yet
+        QMessageBox.about(self, "About",  "关于内容\r\n没有返回值")
+    
+    @pyqtSlot()
+    def on_pushButton_tz_clicked(self):
+        """
+        Slot documentation goes here.
+        """
+        # TODO: not implemented yet
+        QMessageBox.information(self, "Information", "通知内容")
+    
+    @pyqtSlot()
+    def on_pushButton_jg_clicked(self):
+        """
+        Slot documentation goes here.
+        """
+        # TODO: not implemented yet
+        QMessageBox.warning(self, "Warning",  "警告内容\r\n第五个参数是默认值", QMessageBox.Reset|QMessageBox.Help|QMessageBox.Cancel|QMessageBox.Yes, QMessageBox.Reset)
+    
+    @pyqtSlot()
+    def on_pushButton_xw_clicked(self):
+        """
+        Slot documentation goes here.
+        """
+        # TODO: not implemented yet
+        xw_button = QMessageBox.question(self, "Question", "询问内容", QMessageBox.Ok|QMessageBox.No)
+        if xw_button==QMessageBox.Ok:
+            self.textBrowser.append("你点击了 Ok")
+        elif xw_button == QMessageBox.No:
+            self.textBrowser.append("你点击了 No")
+    
+    @pyqtSlot()
+    def on_pushButton_ab_clicked(self):
+        """
+        Slot documentation goes here.
+        """
+        # TODO: not implemented yet
+        QMessageBox.aboutQt(self, "AboutQT") #no return
+    
+    @pyqtSlot()
+    def on_pushButton_yz_clicked(self):
+        """
+        Slot documentation goes here.
+        """
+        # TODO: not implemented yet
+        QMessageBox.critical(self, "Error",  "严重警告内容\r\n默认返回QMessageBox.Ok")
 
 if __name__ == "__main__":
     import sys
@@ -150,4 +202,3 @@ if __name__ == "__main__":
     ui = MainWindow()
     ui.show()
     sys.exit(app.exec_())
-    
