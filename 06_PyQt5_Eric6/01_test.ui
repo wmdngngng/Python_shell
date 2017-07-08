@@ -181,7 +181,7 @@ p, li { white-space: pre-wrap; }
        <item>
         <widget class="QPushButton" name="pushButton_7">
          <property name="text">
-          <string>清除</string>
+          <string>清除输入</string>
          </property>
         </widget>
        </item>
@@ -349,6 +349,46 @@ p, li { white-space: pre-wrap; }
       <widget class="QPushButton" name="pushButton_yz">
        <property name="text">
         <string>严重警告</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget_2">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>400</y>
+      <width>321</width>
+      <height>80</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout_6">
+     <item>
+      <widget class="QPushButton" name="pushButton_zfc">
+       <property name="text">
+        <string>字符串</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_zx">
+       <property name="text">
+        <string>整形</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_fd">
+       <property name="text">
+        <string>浮点</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton_xlk">
+       <property name="text">
+        <string>下拉框</string>
        </property>
       </widget>
      </item>

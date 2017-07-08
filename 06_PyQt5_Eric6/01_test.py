@@ -5,7 +5,7 @@ Module implementing MainWindow.
 """
 
 from PyQt5.QtCore import pyqtSlot
-from PyQt5.QtWidgets import QMainWindow, QMessageBox
+from PyQt5.QtWidgets import QMainWindow, QMessageBox, QInputDialog, QLineEdit
 from PyQt5 import QtWidgets, QtCore
 
 from Ui_01_test import Ui_MainWindow
@@ -196,9 +196,52 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # TODO: not implemented yet
         QMessageBox.critical(self, "Error",  "严重警告内容\r\n默认返回QMessageBox.Ok")
 
+    @pyqtSlot()
+    def on_pushButton_zfc_clicked(self):
+        """
+        Slot documentation goes here.
+        """
+        # TODO: not implemented yet
+        zfc_str, ok = QInputDialog.getText(self,  "字符串", "请在此输入：", QLineEdit.Normal, "Please input:")
+        print(zfc_str,  ok)
+        if ok and (len(zfc_str) != 0):
+            self.textBrowser.append(zfc_str)
+        
+    @pyqtSlot()
+    def on_pushButton_zx_clicked(self):
+        """
+        Slot documentation goes here.
+        """
+        # TODO: not implemented yet
+        input_str, ok = QInputDialog.getInt(self,  "整形输入", "请在此输入：", 27, 1, 0, 120)
+        print(input_str,  ok)
+    
+    @pyqtSlot()
+    def on_pushButton_fd_clicked(self):
+        """
+        Slot documentation goes here.
+        """
+        # TODO: not implemented yet
+        input_str, ok = QInputDialog.getDouble(self,  "浮点输入", "请在此输入：", 27.1, -1000, 1200)
+        print(input_str,  ok)
+    
+    @pyqtSlot()
+    def on_pushButton_xlk_clicked(self):
+        """
+        Slot documentation goes here.
+        """
+        # TODO: not implemented yet
+        xlk_list = ["CPU", "显示器", "键盘", "鼠标"]
+        xlk_str, ok = QInputDialog.getItem(self, "下拉框", "请输入", xlk_list)
+        print (xlk_str, ok)
+        if ok:
+            self.textBrowser.append(xlk_str)
+        
+
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
     ui = MainWindow()
     ui.show()
     sys.exit(app.exec_())
+    
