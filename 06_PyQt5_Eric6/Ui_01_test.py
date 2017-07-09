@@ -163,12 +163,12 @@ class Ui_MainWindow(object):
         self.pushButton_zx = QtWidgets.QPushButton(self.horizontalLayoutWidget_2)
         self.pushButton_zx.setObjectName("pushButton_zx")
         self.horizontalLayout_6.addWidget(self.pushButton_zx)
-        self.pushButton_fd = QtWidgets.QPushButton(self.horizontalLayoutWidget_2)
-        self.pushButton_fd.setObjectName("pushButton_fd")
-        self.horizontalLayout_6.addWidget(self.pushButton_fd)
         self.pushButton_xlk = QtWidgets.QPushButton(self.horizontalLayoutWidget_2)
         self.pushButton_xlk.setObjectName("pushButton_xlk")
         self.horizontalLayout_6.addWidget(self.pushButton_xlk)
+        self.pushButton_11_zdy = QtWidgets.QPushButton(self.horizontalLayoutWidget_2)
+        self.pushButton_11_zdy.setObjectName("pushButton_11_zdy")
+        self.horizontalLayout_6.addWidget(self.pushButton_11_zdy)
         MainWindow.setCentralWidget(self.centralWidget)
 
         self.retranslateUi(MainWindow)
@@ -218,8 +218,8 @@ class Ui_MainWindow(object):
         self.pushButton_yz.setText(_translate("MainWindow", "严重警告"))
         self.pushButton_zfc.setText(_translate("MainWindow", "字符串"))
         self.pushButton_zx.setText(_translate("MainWindow", "整形"))
-        self.pushButton_fd.setText(_translate("MainWindow", "浮点"))
         self.pushButton_xlk.setText(_translate("MainWindow", "下拉框"))
+        self.pushButton_11_zdy.setText(_translate("MainWindow", "自定义对话框"))
 
 
 if __name__ == "__main__":

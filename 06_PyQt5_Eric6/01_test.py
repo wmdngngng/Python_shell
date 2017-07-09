@@ -7,6 +7,7 @@ Module implementing MainWindow.
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QMainWindow, QMessageBox, QInputDialog, QLineEdit
 from PyQt5 import QtWidgets, QtCore
+from zdy_dialog import dialog
 
 from Ui_01_test import Ui_MainWindow
 
@@ -237,6 +238,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         if ok:
             self.textBrowser.append(xlk_str)
         
+
+    @pyqtSlot()
+    def on_pushButton_11_zdy_clicked(self):
+        """
+        Slot documentation goes here.
+        """
+        # TODO: not implemented yet
+        zdy_dialog = dialog()
+        zdy_dialog.exec_()
 
 if __name__ == "__main__":
     import sys

@@ -379,16 +379,16 @@ p, li { white-space: pre-wrap; }
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_fd">
+      <widget class="QPushButton" name="pushButton_xlk">
        <property name="text">
-        <string>浮点</string>
+        <string>下拉框</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton_xlk">
+      <widget class="QPushButton" name="pushButton_11_zdy">
        <property name="text">
-        <string>下拉框</string>
+        <string>自定义对话框</string>
        </property>
       </widget>
      </item>
