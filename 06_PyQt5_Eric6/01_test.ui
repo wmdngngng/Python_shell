@@ -359,7 +359,7 @@ p, li { white-space: pre-wrap; }
      <rect>
       <x>20</x>
       <y>400</y>
-      <width>321</width>
+      <width>349</width>
       <height>80</height>
      </rect>
     </property>
@@ -394,9 +394,24 @@ p, li { white-space: pre-wrap; }
      </item>
     </layout>
    </widget>
+   <widget class="QGraphicsView" name="graphicsView">
+    <property name="geometry">
+     <rect>
+      <x>590</x>
+      <y>200</y>
+      <width>191</width>
+      <height>131</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-image: url(:/picture01/src/my cat.jpg);</string>
+    </property>
+   </widget>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="picture_src.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>pushButton_3</sender>

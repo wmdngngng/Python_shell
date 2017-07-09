@@ -152,7 +152,7 @@ class Ui_MainWindow(object):
         self.pushButton_yz.setObjectName("pushButton_yz")
         self.gridLayout.addWidget(self.pushButton_yz, 0, 1, 1, 1)
         self.horizontalLayoutWidget_2 = QtWidgets.QWidget(self.centralWidget)
-        self.horizontalLayoutWidget_2.setGeometry(QtCore.QRect(20, 400, 321, 80))
+        self.horizontalLayoutWidget_2.setGeometry(QtCore.QRect(20, 400, 349, 80))
         self.horizontalLayoutWidget_2.setObjectName("horizontalLayoutWidget_2")
         self.horizontalLayout_6 = QtWidgets.QHBoxLayout(self.horizontalLayoutWidget_2)
         self.horizontalLayout_6.setContentsMargins(0, 0, 0, 0)
@@ -169,6 +169,10 @@ class Ui_MainWindow(object):
         self.pushButton_11_zdy = QtWidgets.QPushButton(self.horizontalLayoutWidget_2)
         self.pushButton_11_zdy.setObjectName("pushButton_11_zdy")
         self.horizontalLayout_6.addWidget(self.pushButton_11_zdy)
+        self.graphicsView = QtWidgets.QGraphicsView(self.centralWidget)
+        self.graphicsView.setGeometry(QtCore.QRect(590, 200, 191, 131))
+        self.graphicsView.setStyleSheet("border-image: url(:/picture01/src/my cat.jpg);")
+        self.graphicsView.setObjectName("graphicsView")
         MainWindow.setCentralWidget(self.centralWidget)
 
         self.retranslateUi(MainWindow)
@@ -221,6 +225,7 @@ class Ui_MainWindow(object):
         self.pushButton_xlk.setText(_translate("MainWindow", "下拉框"))
         self.pushButton_11_zdy.setText(_translate("MainWindow", "自定义对话框"))
 
+import picture_src_rc
 
 if __name__ == "__main__":
     import sys

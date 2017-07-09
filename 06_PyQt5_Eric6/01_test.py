@@ -10,7 +10,7 @@ from PyQt5 import QtWidgets, QtCore
 from zdy_dialog import dialog
 
 from Ui_01_test import Ui_MainWindow
-
+import webbrowser
 
 class MainWindow(QMainWindow, Ui_MainWindow):
     
@@ -26,6 +26,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         """
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
+        self.graphicsView.mousePressEvent = self.graphicsView_Click
+        
+    def graphicsView_Click(self, gevent):
+        print("你点击了图片")
+        webbrowser.open("www.baidu.com")
     
     @pyqtSlot()
     def on_pushButton_6_clicked(self):
