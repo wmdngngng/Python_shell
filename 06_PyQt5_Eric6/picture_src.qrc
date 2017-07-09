@@ -1,5 +1,7 @@
 <RCC>
   <qresource prefix="picture01">
+    <file>src/open-file.png</file>
+    <file>src/start.jpg</file>
     <file>src/my cat.jpg</file>
   </qresource>
 </RCC>

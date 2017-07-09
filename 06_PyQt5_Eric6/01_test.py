@@ -252,6 +252,101 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # TODO: not implemented yet
         zdy_dialog = dialog()
         zdy_dialog.exec_()
+#*************************************************************************
+#*********************  Action  *******************************************
+#*************************************************************************
+    @pyqtSlot()
+    def on_actionopen_triggered(self):
+        """
+        Slot documentation goes here.
+        """
+        print("你点击了 open")
+    
+    @pyqtSlot()
+    def on_actionclose_triggered(self):
+        """
+        Slot documentation goes here.
+        """
+        print("你点击了 close")
+    
+    @pyqtSlot()
+    def on_actionsave_triggered(self):
+        """
+        Slot documentation goes here.
+        """
+        print("你点击了 save")
+    
+    @pyqtSlot()
+    def on_actionexit_triggered(self):
+        """
+        Slot documentation goes here.
+        """
+        # TODO: not implemented yet
+        sys.exit(0)
+    
+    @pyqtSlot()
+    def on_actioncopy_triggered(self):
+        """
+        Slot documentation goes here.
+        """
+        print("你点击了 copy")
+    
+    @pyqtSlot()
+    def on_actioncut_triggered(self):
+        """
+        Slot documentation goes here.
+        """
+        print("你点击了 cut")
+    
+    @pyqtSlot()
+    def on_actionpaset_triggered(self):
+        """
+        Slot documentation goes here.
+        """
+        print("你点击了 paset")
+    
+    @pyqtSlot()
+    def on_actionmax_triggered(self):
+        """
+        Slot documentation goes here.
+        """
+        print("你点击了 max")
+    
+    @pyqtSlot()
+    def on_actionmin_triggered(self):
+        """
+        Slot documentation goes here.
+        """
+        print("你点击了 min")
+    
+    @pyqtSlot()
+    def on_actionabout_triggered(self):
+        """
+        Slot documentation goes here.
+        """
+        QMessageBox.about(self, "Version",  "此软件是学习Python而作,仅供参考。\r\nVersion:1.0.0\r\nTime:2017/07/09")
+    
+    @pyqtSlot()
+    def on_actionabout_auther_triggered(self):
+        """
+        Slot documentation goes here.
+        """
+        QMessageBox.information(self, "关于作者", "Labc")
+    
+    @pyqtSlot()
+    def on_actionhelp_triggered(self):
+        """
+        Slot documentation goes here.
+        """
+        # TODO: not implemented yet
+        print("你点击了 help")
+    
+    @pyqtSlot()
+    def on_actionconnect_us_triggered(self):
+        """
+        Slot documentation goes here.
+        """
+        print("你点击了 connect us")
 
 if __name__ == "__main__":
     import sys
