@@ -17,7 +17,11 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Python Study</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="picture_src.qrc">
+    <normaloff>:/picture01/src/my cat.jpg</normaloff>:/picture01/src/my cat.jpg</iconset>
   </property>
   <property name="toolTipDuration">
    <number>-1</number>
@@ -359,7 +363,7 @@ p, li { white-space: pre-wrap; }
      <rect>
       <x>20</x>
       <y>400</y>
-      <width>321</width>
+      <width>349</width>
       <height>80</height>
      </rect>
     </property>
