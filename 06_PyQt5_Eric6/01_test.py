@@ -5,7 +5,7 @@ Module implementing MainWindow.
 """
 
 from PyQt5.QtCore import pyqtSlot
-from PyQt5.QtWidgets import QMainWindow, QMessageBox, QInputDialog, QLineEdit
+from PyQt5.QtWidgets import QMainWindow, QMessageBox, QInputDialog, QLineEdit, QFileDialog  
 from PyQt5 import QtWidgets, QtCore
 from zdy_dialog import dialog
 
@@ -261,6 +261,14 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         Slot documentation goes here.
         """
         print("你点击了 open")
+        file_path_str, filetype  = QFileDialog.getOpenFileName(self, "打开文件", "/", "*.txt;;*")
+        print(file_path_str)
+        print(filetype)
+        if len(file_path_str):
+            f = open(file_path_str)
+            data_str = f.read()
+            f.close
+            self.textBrowser.append(data_str)
     
     @pyqtSlot()
     def on_actionclose_triggered(self):
@@ -275,6 +283,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         Slot documentation goes here.
         """
         print("你点击了 save")
+        save_data_path, filetype = QFileDialog.getSaveFileName(self, "保存文件", "/", "*.txt;;*")
+        print(save_data_path)
+        print(filetype)
+        get_data = self.textBrowser.toPlainText()
+        f = open(save_data_path, "a+")
+        f.write(get_data)
+        f.close()
     
     @pyqtSlot()
     def on_actionexit_triggered(self):
