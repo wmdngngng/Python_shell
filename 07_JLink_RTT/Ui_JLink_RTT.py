@@ -23,12 +23,12 @@ class Ui_MainWindow(object):
         self.label_2 = QtWidgets.QLabel(self.centralWidget)
         self.label_2.setGeometry(QtCore.QRect(60, 510, 111, 16))
         self.label_2.setObjectName("label_2")
-        self.lineEdit = QtWidgets.QLineEdit(self.centralWidget)
-        self.lineEdit.setGeometry(QtCore.QRect(170, 480, 351, 20))
-        self.lineEdit.setObjectName("lineEdit")
-        self.lineEdit_2 = QtWidgets.QLineEdit(self.centralWidget)
-        self.lineEdit_2.setGeometry(QtCore.QRect(170, 510, 351, 20))
-        self.lineEdit_2.setObjectName("lineEdit_2")
+        self.lineEdit_jlink = QtWidgets.QLineEdit(self.centralWidget)
+        self.lineEdit_jlink.setGeometry(QtCore.QRect(170, 480, 351, 20))
+        self.lineEdit_jlink.setObjectName("lineEdit_jlink")
+        self.lineEdit_map = QtWidgets.QLineEdit(self.centralWidget)
+        self.lineEdit_map.setGeometry(QtCore.QRect(170, 510, 351, 20))
+        self.lineEdit_map.setObjectName("lineEdit_map")
         self.toolButton_jlink_lj = QtWidgets.QToolButton(self.centralWidget)
         self.toolButton_jlink_lj.setGeometry(QtCore.QRect(530, 480, 37, 18))
         self.toolButton_jlink_lj.setObjectName("toolButton_jlink_lj")
@@ -38,9 +38,9 @@ class Ui_MainWindow(object):
         self.pushButton_connect = QtWidgets.QPushButton(self.centralWidget)
         self.pushButton_connect.setGeometry(QtCore.QRect(490, 560, 75, 23))
         self.pushButton_connect.setObjectName("pushButton_connect")
-        self.pushButton = QtWidgets.QPushButton(self.centralWidget)
-        self.pushButton.setGeometry(QtCore.QRect(60, 560, 75, 23))
-        self.pushButton.setObjectName("pushButton")
+        self.pushButton_clear = QtWidgets.QPushButton(self.centralWidget)
+        self.pushButton_clear.setGeometry(QtCore.QRect(60, 560, 75, 23))
+        self.pushButton_clear.setObjectName("pushButton_clear")
         MainWindow.setCentralWidget(self.centralWidget)
 
         self.retranslateUi(MainWindow)
@@ -54,9 +54,9 @@ class Ui_MainWindow(object):
         self.toolButton_jlink_lj.setText(_translate("MainWindow", "..."))
         self.toolButton_map_lj.setText(_translate("MainWindow", "..."))
         self.pushButton_connect.setText(_translate("MainWindow", "Connect"))
-        self.pushButton.setText(_translate("MainWindow", "Clear"))
+        self.pushButton_clear.setText(_translate("MainWindow", "Clear"))
 
-
+'''
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
@@ -65,4 +65,4 @@ if __name__ == "__main__":
     ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())
-
+'''
