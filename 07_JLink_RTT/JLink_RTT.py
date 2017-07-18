@@ -50,7 +50,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         Slot documentation goes here.
         """
         # TODO: not implemented yet
-        raise NotImplementedError
+        self.textBrowser.append("Conneting...")
     
     @pyqtSlot()
     def on_pushButton_clear_clicked(self):
@@ -58,7 +58,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         Slot documentation goes here.
         """
         # TODO: not implemented yet
-        raise NotImplementedError
+        self.textBrowser.clear()
 
 if __name__ == "__main__":
     import sys
