@@ -3,7 +3,7 @@
 """
 Module implementing MainWindow.
 """
-
+import ctypes,  struct
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QMainWindow, QFileDialog
 from PyQt5 import  QtWidgets
@@ -30,9 +30,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         Slot documentation goes here.
         """
         # TODO: not implemented yet
-        jlinkPath, filetype = QFileDialog.getOpenFileName(self, "jLink_ARM.dll Path", "D:",  "*.dll" )
-        print(jlinkPath)
-        self.lineEdit_jlink.setText(jlinkPath)
+        self.jlinkPath, filetype = QFileDialog.getOpenFileName(self, "jLink_ARM.dll Path", "D:",  "*.dll" )
+        print(self.jlinkPath)
+        self.lineEdit_jlink.setText(self.jlinkPath)
         
     
     @pyqtSlot()
@@ -51,6 +51,21 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         """
         # TODO: not implemented yet
         self.textBrowser.append("Conneting...")
+        self.textBrowser.append(self.jlinkPath)
+        try:
+            self.jlink = ctypes.cdll.LoadLibrary(self.jlinkPath)
+            self.jlink.JLINKARM_TIF_Select(1)
+            sel_device = self.jlink.JLINKARM_GetSelDevice()
+            print("sel device:", sel_device)
+        except Exception as ex:
+                print (ex)
+        else:
+            print("关闭连接")
+            isopen = self.jlink.JLINKARM_IsOpen()
+            print("isopen:", isopen)
+            buf = ctypes.create_string_buffer(10)
+            self.jlink.JLINKARM_ReadMem(0x10000000, 10, buf)
+            print("buf:", buf.raw)
     
     @pyqtSlot()
     def on_pushButton_clear_clicked(self):

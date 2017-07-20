@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Project SYSTEM "Project-5.1.dtd">
 <!-- eric project file for project JLink_RTT -->
-<!-- Saved: 2017-07-15, 23:52:17 -->
+<!-- Saved: 2017-07-21, 02:26:39 -->
 <!-- Copyright (C) 2017 labc, 2367334102@qq.com -->
 <Project version="5.1">
   <Language>en_US</Language>
@@ -14,6 +14,8 @@
   <Email>2367334102@qq.com</Email>
   <Eol index="0"/>
   <Sources>
+    <Source>JLink_RTT.py</Source>
+    <Source>Ui_JLink_RTT.py</Source>
     <Source>__init__.py</Source>
   </Sources>
   <Forms>
