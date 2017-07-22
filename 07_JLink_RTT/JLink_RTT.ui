@@ -50,7 +50,7 @@
      <string>项目.map文件路径：</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="lineEdit_jlink">
+   <widget class="QLineEdit" name="lineEdit_dll">
     <property name="geometry">
      <rect>
       <x>170</x>

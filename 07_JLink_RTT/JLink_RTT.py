@@ -4,6 +4,7 @@
 Module implementing MainWindow.
 """
 import ctypes,  struct
+import os, configparser
 from PyQt5.QtCore import pyqtSlot
 from PyQt5.QtWidgets import QMainWindow, QFileDialog
 from PyQt5 import  QtWidgets
@@ -23,16 +24,32 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         """
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
-    
+        self.initSetting()
+        
+    def initSetting(self):
+        self.settingPath = "../setting.ini"
+        if os.path.exists(self.settingPath):
+            self.conf = configparser.ConfigParser()
+            self.conf.read(self.settingPath)
+            self.dllPath = self.conf.get("globals", "Dll_Path")
+            self.mapPath = self.conf.get("globals", "Map_Path")
+            self.lineEdit_dll.setText(self.dllPath)
+            self.lineEdit_map.setText(self.mapPath)
+                
+        else:
+            self.textBrowser("Error:setting.ini not found.")
+        
     @pyqtSlot()
     def on_toolButton_jlink_lj_clicked(self):
         """
         Slot documentation goes here.
         """
         # TODO: not implemented yet
-        self.jlinkPath, filetype = QFileDialog.getOpenFileName(self, "jLink_ARM.dll Path", "D:",  "*.dll" )
-        print(self.jlinkPath)
-        self.lineEdit_jlink.setText(self.jlinkPath)
+        self.tempPath, filetype = QFileDialog.getOpenFileName(self, "jLink_ARM.dll Path", "D:",  "*.dll" )
+        if (len(self.tempPath)):
+            self.dllPath = self.tempPath
+            self.lineEdit_dll.setText(self.dllPath)
+            print(self.dllPath)
         
     
     @pyqtSlot()
@@ -51,9 +68,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         """
         # TODO: not implemented yet
         self.textBrowser.append("Conneting...")
-        self.textBrowser.append(self.jlinkPath)
+        self.textBrowser.append(self.dllPath)
         try:
-            self.jlink = ctypes.cdll.LoadLibrary(self.jlinkPath)
+            self.jlink = ctypes.cdll.LoadLibrary(self.dllPath)
             self.jlink.JLINKARM_TIF_Select(1)
             sel_device = self.jlink.JLINKARM_GetSelDevice()
             print("sel device:", sel_device)
@@ -74,6 +91,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         """
         # TODO: not implemented yet
         self.textBrowser.clear()
+        self.jlink.JLINKARM_Close()
 
 if __name__ == "__main__":
     import sys

@@ -1,43 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE Tasks SYSTEM "Tasks-6.0.dtd">
 <!-- eric6 tasks file for project JLink_RTT -->
-<!-- Saved: 2017-07-21, 03:19:47 -->
+<!-- Saved: 2017-07-22, 19:14:06 -->
 <Tasks version="6.0">
   <ProjectScanFilter></ProjectScanFilter>
-  <Task priority="1" completed="False" type="1" uid="{c67fca6e-6259-4eb7-82c7-8cdc58c55a92}">
+  <Task priority="1" completed="False" type="1" uid="{d86e831b-a5ab-40eb-ae57-56770cab13e8}">
     <Summary>TODO: not implemented yet</Summary>
     <Description></Description>
-    <Created>2017-07-21, 03:17:44</Created>
+    <Created>2017-07-22, 18:54:01</Created>
     <Resource>
       <Filename>JLink_RTT.py</Filename>
-      <Linenumber>32</Linenumber>
+      <Linenumber>47</Linenumber>
     </Resource>
   </Task>
-  <Task priority="1" completed="False" type="1" uid="{7fed137a-d558-45e8-a66f-c043db30fe31}">
+  <Task priority="1" completed="False" type="1" uid="{3c2d68e3-04d0-42cd-a3a5-6fd75413750c}">
     <Summary>TODO: not implemented yet</Summary>
     <Description></Description>
-    <Created>2017-07-21, 03:17:44</Created>
+    <Created>2017-07-22, 18:54:01</Created>
     <Resource>
       <Filename>JLink_RTT.py</Filename>
-      <Linenumber>43</Linenumber>
+      <Linenumber>60</Linenumber>
     </Resource>
   </Task>
-  <Task priority="1" completed="False" type="1" uid="{71e2b5e4-39bc-42cf-ac22-36d98206055d}">
+  <Task priority="1" completed="False" type="1" uid="{54d6c556-77ed-4c9a-acac-131379c15013}">
     <Summary>TODO: not implemented yet</Summary>
     <Description></Description>
-    <Created>2017-07-21, 03:17:44</Created>
+    <Created>2017-07-22, 18:54:01</Created>
     <Resource>
       <Filename>JLink_RTT.py</Filename>
-      <Linenumber>52</Linenumber>
+      <Linenumber>69</Linenumber>
     </Resource>
   </Task>
-  <Task priority="1" completed="False" type="1" uid="{b2f3cc1d-4055-460d-86ec-744b137ed9e6}">
+  <Task priority="1" completed="False" type="1" uid="{2d801eff-886c-4621-972c-79071c41f0e3}">
     <Summary>TODO: not implemented yet</Summary>
     <Description></Description>
-    <Created>2017-07-21, 03:17:44</Created>
+    <Created>2017-07-22, 18:54:01</Created>
     <Resource>
       <Filename>JLink_RTT.py</Filename>
-      <Linenumber>75</Linenumber>
+      <Linenumber>92</Linenumber>
     </Resource>
   </Task>
 </Tasks>

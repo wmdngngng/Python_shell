@@ -23,9 +23,9 @@ class Ui_MainWindow(object):
         self.label_2 = QtWidgets.QLabel(self.centralWidget)
         self.label_2.setGeometry(QtCore.QRect(60, 510, 111, 16))
         self.label_2.setObjectName("label_2")
-        self.lineEdit_jlink = QtWidgets.QLineEdit(self.centralWidget)
-        self.lineEdit_jlink.setGeometry(QtCore.QRect(170, 480, 351, 20))
-        self.lineEdit_jlink.setObjectName("lineEdit_jlink")
+        self.lineEdit_dll = QtWidgets.QLineEdit(self.centralWidget)
+        self.lineEdit_dll.setGeometry(QtCore.QRect(170, 480, 351, 20))
+        self.lineEdit_dll.setObjectName("lineEdit_dll")
         self.lineEdit_map = QtWidgets.QLineEdit(self.centralWidget)
         self.lineEdit_map.setGeometry(QtCore.QRect(170, 510, 351, 20))
         self.lineEdit_map.setObjectName("lineEdit_map")
@@ -56,7 +56,7 @@ class Ui_MainWindow(object):
         self.pushButton_connect.setText(_translate("MainWindow", "Connect"))
         self.pushButton_clear.setText(_translate("MainWindow", "Clear"))
 
-'''
+
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
@@ -65,4 +65,4 @@ if __name__ == "__main__":
     ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())
-'''
+
