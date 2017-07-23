@@ -77,12 +77,18 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         except Exception as ex:
                 print (ex)
         else:
-            print("关闭连接")
             isopen = self.jlink.JLINKARM_IsOpen()
+            print("123:")
+            #str = "device=CR600"
+            #str = ctypes.c_wchar_p("device=CR600")
+            #print("exe:", self.jlink.JLINK_ExecCommand(ctypes.c_char_p("device=CR600")))
             print("isopen:", isopen)
             buf = ctypes.create_string_buffer(10)
-            self.jlink.JLINKARM_ReadMem(0x10000000, 10, buf)
-            print("buf:", buf.raw)
+            self.jlink.JLINKARM_ReadMem(0x10000000, 12, buf)
+            print("len:", len(buf.raw))
+            addrs = struct.unpack("2I", buf.raw[:8])
+            for addr in addrs:
+                print("buf:%x" %(addr))
     
     @pyqtSlot()
     def on_pushButton_clear_clicked(self):
