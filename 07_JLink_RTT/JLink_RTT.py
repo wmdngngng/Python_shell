@@ -10,7 +10,10 @@ from PyQt5.QtWidgets import QMainWindow, QFileDialog
 from PyQt5 import  QtWidgets
 from Ui_JLink_RTT import Ui_MainWindow
 
-
+class SeggerRttBuf(object):
+    def __init__(self, arr):
+        self.sName,  self.pBuffer,  self.SizeOfBuffer,  self.WrOff,  self.RdOff,  self.Flags = arr
+        
 class MainWindow(QMainWindow, Ui_MainWindow):
     """
     Class documentation goes here.
@@ -83,12 +86,13 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             #str = ctypes.c_wchar_p("device=CR600")
             #print("exe:", self.jlink.JLINK_ExecCommand(ctypes.c_char_p("device=CR600")))
             print("isopen:", isopen)
-            buf = ctypes.create_string_buffer(10)
-            self.jlink.JLINKARM_ReadMem(0x10000000, 12, buf)
-            print("len:", len(buf.raw))
-            addrs = struct.unpack("2I", buf.raw[:8])
-            for addr in addrs:
-                print("buf:%x" %(addr))
+            b_len = 168
+            buf = ctypes.create_string_buffer(b_len)
+            self.jlink.JLINKARM_ReadMem(0x100104e4, b_len, buf)
+            acID, MaxNumUpBuf, MaxNumDownBuf = struct.unpack("16sii", buf.raw[:24])
+            print("acID:", acID)
+            print("MaxNumUpBuf:", MaxNumUpBuf)
+            print("MaxNumDownBuf", MaxNumDownBuf)
     
     @pyqtSlot()
     def on_pushButton_clear_clicked(self):
