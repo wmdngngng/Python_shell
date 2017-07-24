@@ -90,9 +90,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             buf = ctypes.create_string_buffer(b_len)
             self.jlink.JLINKARM_ReadMem(0x100104e4, b_len, buf)
             acID, MaxNumUpBuf, MaxNumDownBuf = struct.unpack("16sii", buf.raw[:24])
-            print("acID:", acID)
-            print("MaxNumUpBuf:", MaxNumUpBuf)
-            print("MaxNumDownBuf", MaxNumDownBuf)
+            upBuffEnd = 24+24*1
+            downBuffStart = 24+24*MaxNumUpBuf
+            downBuffEnd = downBuffStart+24
+            upBuffs0 = struct.unpack("PPiiii", buf.raw[24:upBuffEnd])
+            downBuffs0 = struct.unpack("PPiiii", buf.raw[downBuffStart:downBuffEnd])
+            self.upBuff0 = SeggerRttBuf(upBuffs0)
+            self.downBuff0 = SeggerRttBuf(downBuffs0)
+            print("sName:%x"%(self.upBuff0.sName))
+            print("pBuffer:%x"%(self.upBuff0.pBuffer))
+            print("SizeOfBuffer:%d"%(self.upBuff0.SizeOfBuffer))
+            print("WrOff:%d"%(self.upBuff0.WrOff))
+            print("RdOff:%d"%(self.upBuff0.RdOff))
+            print("Flags:%d"%(self.upBuff0.Flags))
     
     @pyqtSlot()
     def on_pushButton_clear_clicked(self):
