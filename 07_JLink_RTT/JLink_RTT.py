@@ -86,9 +86,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             #str = ctypes.c_wchar_p("device=CR600")
             #print("exe:", self.jlink.JLINK_ExecCommand(ctypes.c_char_p("device=CR600")))
             print("isopen:", isopen)
+            RttAddr = 0x100104e4
             b_len = 168
             buf = ctypes.create_string_buffer(b_len)
-            self.jlink.JLINKARM_ReadMem(0x100104e4, b_len, buf)
+            self.jlink.JLINKARM_ReadMem(RttAddr, b_len, buf)
             acID, MaxNumUpBuf, MaxNumDownBuf = struct.unpack("16sii", buf.raw[:24])
             upBuffEnd = 24+24*1
             downBuffStart = 24+24*MaxNumUpBuf
@@ -103,7 +104,39 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             print("WrOff:%d"%(self.upBuff0.WrOff))
             print("RdOff:%d"%(self.upBuff0.RdOff))
             print("Flags:%d"%(self.upBuff0.Flags))
-    
+            
+            if self.upBuff0.RdOff < self.upBuff0.WrOff:
+                len = self.upBuff0.WrOff - self.upBuff0.RdOff
+                str = ctypes.create_string_buffer(len)
+                raddr = self.upBuff0.pBuffer + self.upBuff0.RdOff
+                self.jlink.JLINKARM_ReadMem(raddr, len, str)
+                self.upBuff0.RdOff += len
+                pRdOff_len = struct.pack("L", self.upBuff0.RdOff)
+                buf = ctypes.create_string_buffer(pRdOff_len)
+                rdoff_addr = RttAddr + 16+4*2+4*4
+                self.jlink.JLINKARM_WriteMem(rdoff_addr, 4, buf)
+                
+            else:
+                len = self.upBuff0.SizeOfBuffer - self.upBuff0.RdOff + 1
+                str = ctypes.create_string_buffer(len)
+                raddr = self.upBuff0.pBuffer + self.upBuff0.RdOff
+                self.jlink.JLINKARM_ReadMem(raddr, len, str)
+                self.upBuff0.RdOff = 0;
+                pRdOff_len = struct.pack("L", self.upBuff0.RdOff)
+                buf = ctypes.create_string_buffer(pRdOff_len)
+                rdoff_addr = RttAddr+16+4*2+4*4
+                self.jlink.JLINKARM_WriteMem(rdoff_addr, 4, buf)
+                print("ebuf:", buf)
+                print("s:", pRdOff_len)
+                print("rdoff_addr:%x"%(rdoff_addr))
+             
+            print("str:", str)
+            print("str.raw:", str.raw)
+            print("str.value:", str.value)
+            real_str = str.raw.decode("utf_8")
+            self.textBrowser.append("hello")
+            self.textBrowser.append(str.raw.decode("utf_8"))  #ascii
+              
     @pyqtSlot()
     def on_pushButton_clear_clicked(self):
         """
