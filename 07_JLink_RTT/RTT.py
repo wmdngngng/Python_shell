@@ -1,4 +1,4 @@
-import ctypes, struct
+import struct, JLink
 #import numpy as np
 
 class RttBuf(object):
@@ -21,28 +21,28 @@ class RttCB(object):
         
 class RTT(object):
     "RTT api"
-    def __init__(self, parent=None):
+    def __init__(self, dllpath):
+        self.jlink = JLink(dllpath)
         print("hello")
         
     def upBuffEmpty(self, rtt_addr, len, upport, downport):
-        buf = ctypes.create_string_buffer(len)
-        self.jlink.JLINKARM_ReadMem(rtt_addr, len, buf)
+        buf = self.jlink.read_mem(rtt_addr, len)
         self.rtt_cb = RttCB(buf, upport, downport)
         return self.rtt_cb.aUp.RdOff == self.rtt_cb.aUp.WrOff
         
     def upBuffRead(self, rtt_addr, upport,  downport):
         if self.rtt_cb.aUp.RdOff < self.rtt_cb.aUp.WrOff:
             len = self.rtt_cb.aUp.WrOff - self.rtt_cb.aUp.RdOff
-            buf = ctypes.create_string_buffer(len)
-            self.jlink.JLINKARM_ReadMem(self.rtt_cb.aUp.pBuffer+self.rtt_cb.aUp.RdOff,  len,  buf)
+            buf = self.jlink.read_mem(self.rtt_cb.aUp.pBuffer+self.rtt_cb.aUp.RdOff,  len)
             self.rtt_cb.aUp.RdOff += len
-            str = ctypes.create_string_buffer(struct.pack("L", self.rtt_cb.aUp.RdOff))
-            self.jlink.JLINKARM_WriteMem(rtt_addr+24+upport*24+16, 4, str)
+            #str = ctypes.create_string_buffer(struct.pack("L", self.rtt_cb.aUp.RdOff))
+            #self.jlink.JLINKARM_WriteMem(rtt_addr+24+upport*24+16, 4, str)
+            self.jlink.write(rtt_addr+24+upport*24+16, self.rtt_cb.aUp.RdOff)
         else:
             len = self.rtt_cb.aUp.SizeOfBuffer - self.rtt_cb.aUp.RdOff +1
-            buf = ctypes.create_string_buffer(len)
-            self.jlink.JLINKARM_ReadMem(self.rtt_cb.aUp.pBuffer+self.rtt_cb.aUp.RdOff, len, buf)
+            buf = self.jlink.read_mem(self.rtt_cb.aUp.pBuffer+self.rtt_cb.aUp.RdOff, len)
             self.rtt_cb.aUp.RdOff = 0
-            str = ctypes.create_string_buffer(struct.pack("L", self.rtt_cb.aUp.RdOff))
-            self.jlink.JLINKARM_WriteMem(rtt_addr+24+upport*24+16, 4, str)
-            
+            #str = ctypes.create_string_buffer(struct.pack("L", self.rtt_cb.aUp.RdOff))
+            #self.jlink.JLINKARM_WriteMem(rtt_addr+24+upport*24+16, 4, str)
+            self.jlink.write_mem(rtt_addr+24+upport*24+16, self.rtt_cb.aUp.RdOff)
+        return buf.raw.decode("utf_8")   
