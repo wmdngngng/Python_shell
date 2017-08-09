@@ -1,6 +1,6 @@
 import os, configparser, winreg
 
-def registrytest(keypath):
+def RegSeach(keypath):
     key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, keypath, 0, winreg.KEY_ALL_ACCESS)
     try:
         i = winreg.QueryInfoKey(key)[0]  #sub keys 
@@ -30,15 +30,20 @@ def RttSetting():
         conf.read(settingPath)
         dllPath = conf.get("globals", "Dll_Path")
         mapPath = conf.get("globals", "Map_Path")
+        print("dllPath", dllPath)
+        print("mapPath", mapPath)
         if False == os.path.exists(dllPath):
             print(dllPath + " is not found.")
-            print(registrytest(r"Software\SEGGER\J-Link"))
-            #key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, r"Software\SEGGER\J-Link")
-            #print(key)
-        print(dllPath)
-        print(mapPath)
-            
+            #registrytest(r"Software\SEGGER\J-Link")
+            key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, r"Software\SEGGER\J-Link")
+            InstallPath,d1 = winreg.QueryValueEx(key, u"InstallPath" )
+            InstallPath += "JLinkARM.dll"
+            print ("InstallPath", InstallPath) 
+            conf.set("globals", "Dll_Path", InstallPath)
+            conf.write(open(settingPath, 'w'))
+            return InstallPath
     else:
         print("Error:setting.ini not found.")
+        return 0
         
 RttSetting()
