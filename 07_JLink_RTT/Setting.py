@@ -31,8 +31,8 @@ class Setting(object):
             winreg.CloseKey(key)
 
 
-    def Get_Setting(self, key):
-        settingPath = "../setting.ini"
+    def Get_Setting(self,settingPath , key):
+        #settingPath = "../setting.ini"
         if os.path.exists(settingPath):
             conf = configparser.ConfigParser()
             conf.read(settingPath)
