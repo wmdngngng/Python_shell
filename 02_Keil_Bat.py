@@ -222,6 +222,28 @@ def Edit_Uvprojx(path, file):
             
     uvprojx_tree.write(uvprojx_dir,encoding='UTF-8',xml_declaration=True )   
 
+def Ref_SDK_Element():
+    filename = "driver.lib"
+    filetype = "4"
+    filepath = r"..\..\..\..\bsp\ip_driver_lib\driver.lib"
+    
+    element1 = Element("Files")
+    element2 = Element("File")
+    element3 = Element("FileName")
+    element4 = Element("FileType")
+    element5 = Element("FilePath")
+    
+    element3.text = filename
+    element4.text = filetype
+    element5.text = filepath
+    element2.append(element3)
+    element2.append(element4)
+    element2.append(element5)
+    
+    element1.append(element2)
+    
+    return element1
+    
 def Edit_Uvprojx_SDK(path, file):
     'The function is add the xxx_sdk.uvoptx and xxx_sdk.uvprojx'
     keil_dir = os.path.join(path, Keil_F)
@@ -239,11 +261,11 @@ def Edit_Uvprojx_SDK(path, file):
                 for group in groups.iter("Group"):
                     for groupname in group.iter("GroupName"):  #seach the label "GroupName"
                         if groupname.text == "cr600_driver":
-                            for files in group.iter("Files"):
-                                for file in files:
-                                    for file_type in file:
-                                        print("17",file_type.text)
-                                        file.remove(file_type)
+                            for child in group.findall("Files"):  #seach the label of "Group/Files"
+                                group.remove(child)
+                            subelem = Ref_SDK_Element()
+                            group.append(subelem)
+        sdk_uvprojx_tree.write(sdk_uvprojx_dir, encoding='UTF-8',xml_declaration=True)
         
     
 def Clear_file(path,files):
