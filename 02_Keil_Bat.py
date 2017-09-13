@@ -4,7 +4,9 @@
 # 3. 存储每个目标文件夹下CustomProject.xml里的信息
 # 4. 存储每个目标文件夹下*.uvprojx里的信息
 # 5. 将两个存储的信息对比，保存相同信息
-# 6. 先处理相同信息的部分，在处理不同信息的部分
+# 6. 先处理相同信息的部分，再处理不同信息的部分
+# 7. 删除lib源码，增加.lib文件
+# 8. 删除 Keil SDK 中的宏
 #
 # @Author: labc
 # Created on June 21 2017
@@ -246,6 +248,7 @@ def Ref_SDK_Element():
     
 def Edit_Uvprojx_SDK(path, file):
     'The function is add the xxx_sdk.uvoptx and xxx_sdk.uvprojx'
+    des_define = "CR600_LIB "
     keil_dir = os.path.join(path, Keil_F)
     if os.path.exists(keil_dir):
         file_tx_dir = os.path.join(keil_dir,file+D_uvoptx);
@@ -265,6 +268,16 @@ def Edit_Uvprojx_SDK(path, file):
                                 group.remove(child)
                             subelem = Ref_SDK_Element()
                             group.append(subelem)
+        for child in sdk_uvprojx_root:
+            for targetoption in child.iter("TargetOption"):
+                for targetarmads in targetoption.iter("TargetArmAds"):
+                    for cads in targetarmads.iter("Cads"):
+                        for variouscontrols in cads.iter("VariousControls"):
+                            for define in variouscontrols.iter("Define"):
+                                def_val = define.text
+                                def_val = def_val.replace(des_define, "")
+                                print("chang:"+def_val)
+                                define.text = def_val;
         sdk_uvprojx_tree.write(sdk_uvprojx_dir, encoding='UTF-8',xml_declaration=True)
         
     
