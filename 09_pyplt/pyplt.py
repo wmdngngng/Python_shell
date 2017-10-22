@@ -37,7 +37,8 @@ def Draw_Plot(x_list_s, y_list_s, x_has_list_s, title):
                 x_list_value.append(i)
                 y_list_value.append(y_list_s[i])
             i = i + 1
-        plt.plot(x_list_value, y_list_value,'o'+color,label=str(node))
+        plt.plot(x_list_value, y_list_value,'.'+color,label=str(node))
+        #plt.plot(x_list_value, y_list_value,color,marker = '.',label=str(node))
         #print(x_list_value)
         x_list_value = []  #存放该节点的x轴
         y_list_value = []  #存放该节点的y轴
