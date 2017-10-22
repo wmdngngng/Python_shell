@@ -21,7 +21,7 @@ def FilterNode(list_s):
     return has_s
 
 def Draw_Plot(x_list_s, y_list_s, x_has_list_s, title):
-    plt.figure(title[:-4])  #创建图() value必须为数值
+    plt.figure(title[:-4])  #创建图
     for x_has_list in x_has_list_s:  #取出每一个节点
         x_list_value = []  #存放该节点的x轴
         y_list_value = []  #存放该节点的y轴
@@ -45,8 +45,8 @@ def Draw_Plot(x_list_s, y_list_s, x_has_list_s, title):
     plt.xlabel("Time")
     plt.ylabel("Rssi")
     plt.legend()  #设置图例，与plot里的lable相关
-    #plt.savefig(title[:-4])
-    plt.show()    
+    plt.savefig(title[:-4])
+    #plt.show()    
         
         
 def ReadFile(dir,name):
