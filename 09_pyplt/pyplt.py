@@ -19,12 +19,36 @@ def FilterNode(list_s):
         else:
             has_s.append(list)
     return has_s
+    
+def Rssi2NewworkCost(rssi):
+    if rssi >= 1000000:				#less than -80db(zero line), return 1
+        return 1
+    elif rssi >= 360000 :			#1 ~ 10db(ref -80db as zero, negedge val), return 2  
+        return 2			
+    elif(rssi >= 114000):			#11~-20db, return 3
+        return 3
+    elif(rssi >= 35600):			    #21~-30db, return 4
+        return 4	
+    elif(rssi >= 10300):			    #31~-40db, return 5
+        return 5	
+    elif(rssi >= 3300):			    #41~-50db,return 5~10
+        return 10 - (rssi - 3300)/1400
+    elif(rssi >= 800):			    #51~-60db,return 10~20
+        return 20 - (rssi - 800)/250
+    elif(rssi >= 200):			    #61~-70db,return 20~80
+        return 80 - (rssi - 200)/15
+    elif(rssi >= 200):			    #71~-80db,return 80~200
+        return 200 - (rssi*2 - 400)/3
+    else:				                #beyond -80db, treat as unlink,retrun max
+        return 0xff
 
 def Draw_Plot(x_list_s, y_list_s, x_has_list_s, title):
-    plt.figure(title[:-4])  #创建图
+    plt.figure(title[:-4],figsize=(16,8))
+    
     for x_has_list in x_has_list_s:  #取出每一个节点
         x_list_value = []  #存放该节点的x轴
         y_list_value = []  #存放该节点的y轴
+        y_list_value_cal = []  #存放将y轴处理后的值
         i = 0
         for index in range(len(NODE)):
             if x_has_list == NODE[index]:
@@ -36,14 +60,21 @@ def Draw_Plot(x_list_s, y_list_s, x_has_list_s, title):
             if x_list == x_has_list:
                 x_list_value.append(i)
                 y_list_value.append(y_list_s[i])
+                temp_cal = Rssi2NewworkCost(y_list_s[i])  #calculation the rssi value
+                y_list_value_cal.append(temp_cal)
             i = i + 1
-        plt.plot(x_list_value, y_list_value,'o'+color,label=str(node))
+        plt.subplot(211)  #分成2*2,占第一个图, 第一个参数表示行，第二个参数表示列
+        plt.title(title)  #设置title
+        plt.ylabel("Rssi")
+        plt.plot(x_list_value, y_list_value,'.'+color,label=str(node))
+        plt.subplot(212)  #分成2*2,占第二个图
+        plt.ylabel("Cost")
+        plt.xlabel("Time")
+        plt.plot(x_list_value, y_list_value_cal,'.'+color,label=str(node))
+        
         #print(x_list_value)
         x_list_value = []  #存放该节点的x轴
         y_list_value = []  #存放该节点的y轴
-    plt.title(title)  #设置title
-    plt.xlabel("Time")
-    plt.ylabel("Rssi")
     plt.legend()  #设置图例，与plot里的lable相关
     plt.savefig(title[:-4])
     #plt.show()    
