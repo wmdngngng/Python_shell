@@ -117,20 +117,20 @@ def rssi_line(temp_rssi):
         return 4
     elif temp_rssi >= 10300:    #31~-40db
         return 5
-    elif temp_rssi >= 8000:
+    elif temp_rssi >= 5300:
+        return 8
+    elif temp_rssi >= 3300:
         return 10
-    elif temp_rssi >= 5000:
-        return 37-33*temp_rssi/10000
-    elif temp_rssi >= 3000:
-        return 65-9*temp_rssi/1000
-    elif temp_rssi >= 1500:
-        return 92-18*temp_rssi/1000
-    elif temp_rssi >= 800:
-        return 140-5*temp_rssi/100
-    elif temp_rssi >=300:
-        return 212-14*temp_rssi/100
-    elif temp_rssi >=100:
-        return 290-4*temp_rssi/10
+    elif temp_rssi >= 2300:   #16
+        return 16-(temp_rssi-2300)*6/1000
+    elif temp_rssi >= 1800:   #28
+        return 28-(temp_rssi-1800)*6/250
+    elif temp_rssi >= 1000:   #76
+        return 76-(temp_rssi-1000)*6/100
+    elif temp_rssi >= 500:    #136
+        return 136-(temp_rssi-500)*6/50
+    elif temp_rssi >=200:
+        return 208-(temp_rssi-200)*6/25
     else:
         return 255
         
