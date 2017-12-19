@@ -125,17 +125,18 @@ def Get_Y(x_buf):
 def PolyFit():
     x = np.arange(1, 17, 1)
     y = np.array([4.00, 6.40, 8.00, 8.80, 9.22, 9.50, 9.70, 9.86, 10.00, 10.20, 10.32, 10.42, 10.50, 10.55, 10.58, 10.60])
-    z1 = np.polyfit(x, y, 3)
-    p1 = np.poly1d(z1)
+    
+    z1 = np.polyfit(x, y, 3)    #第一个拟合，自由度为3
+    p1 = np.poly1d(z1)          #生成多项式
     print(z1)
     print(p1)
     
-    z2 = np.polyfit(x, y, 6)
-    p2 = np.poly1d(z2)
+    z2 = np.polyfit(x, y, 6)    #第二个拟合，自由度为6
+    p2 = np.poly1d(z2)          #生成多项式
     print(z2)
     print(p2) 
 
-    pl.plot(x, y, 'b^-', label='Origin Line')
+    pl.plot(x, y, 'b^-', label='Origin Line')   #绘制原曲线
     pl.plot(x, p1(x), 'gv--', label='Poly Fitting Line(deg=3)')
     pl.plot(x, p2(x), 'r*', label='Poly Fitting Line(deg=6)')
     pl.axis([0, 18, 0, 18])
