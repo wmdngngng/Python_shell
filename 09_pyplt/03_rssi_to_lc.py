@@ -106,21 +106,54 @@ def rssi_new(temp_rssi):
     else:
         return 255;
         
-
+def rssi_line(temp_rssi):
+    if temp_rssi > 1000000:
+        return 1
+    elif temp_rssi >= 360000:   #1~-10db
+        return 2
+    elif temp_rssi >= 114000:   #11~-20db
+        return 3
+    elif temp_rssi >= 25600:    #21~-30db
+        return 4
+    elif temp_rssi >= 10300:    #31~-40db
+        return 5
+    elif temp_rssi >= 8000:
+        return 10
+    elif temp_rssi >= 5000:
+        return 37-33*temp_rssi/10000
+    elif temp_rssi >= 3000:
+        return 65-9*temp_rssi/1000
+    elif temp_rssi >= 1500:
+        return 92-18*temp_rssi/1000
+    elif temp_rssi >= 800:
+        return 140-5*temp_rssi/100
+    elif temp_rssi >=300:
+        return 212-14*temp_rssi/100
+    elif temp_rssi >=100:
+        return 290-4*temp_rssi/10
+    else:
+        return 255
+        
+def Return_Y(xs):
+    y = []
+    for x in xs:
+        y.append(438*x*x/100000000 - x*0.053 + 156.7)
+    return y
+        
 def Get_Y(x_buf):
     #print(x_buf)
     y_buf_old = []
     y_buf_new = []
-    y_buf_log = []
+    y_buf_line = []
     x_buf_i = []
     i = 0
     for t_x in x_buf:
         i = i+1
         y_buf_old.append(rssi_old(t_x))
         y_buf_new.append(rssi_new(t_x))
-        y_buf_log.append(125-20*math.log10(t_x))
+        y_buf_line.append(rssi_line(t_x))
         x_buf_i.append(i)
-    return y_buf_old,y_buf_new,y_buf_log,x_buf_i
+    return y_buf_old,y_buf_new,y_buf_line,x_buf_i
 
 def PolyFit():
     x = np.arange(1, 17, 1)
@@ -142,20 +175,75 @@ def PolyFit():
     pl.axis([0, 18, 0, 18])
     pl.legend()
     
+def PolyFitRssi():
+    x = [8000, 5000, 3000, 1500, 800, 300]
+    y = [10, 20, 38, 65, 100, 170]
+    x1 = [8000,5000]
+    y1 = [10,20]
+    
+    x2 = [5000,3000]
+    y2 = [20,38]
+    
+    x3 = [3000, 1500]
+    y3 = [38, 65]
+    
+    x4 = [1500, 800]
+    y4 = [65, 100]
+    
+    x5 = [800, 300]
+    y5 = [100, 170]
+    
+    x6 = [300, 100]
+    y6 = [170, 250]
+    
+    z1 = np.polyfit(x1,y1,1)
+    p1 = np.poly1d(z1)
+    print(p1)
+    
+    z2 = np.polyfit(x2,y2,1)
+    p2 = np.poly1d(z2)
+    print(p2)
+    
+    z3 = np.polyfit(x3,y3,1)
+    p3 = np.poly1d(z3)
+    print(p3)
+    
+    z4 = np.polyfit(x4,y4,1)
+    p4 = np.poly1d(z4)
+    print(p4)
+    
+    z5 = np.polyfit(x5,y5,1)
+    p5 = np.poly1d(z5)
+    print(p5)
+    
+    z6 = np.polyfit(x6,y6,1)
+    p6 = np.poly1d(z6)
+    print(p6)
+    
+    plt.plot(x,y, 'r*')
+    plt.plot(x1,y1, 'g-')
+    plt.plot(x2,y2, 'b-')
+    plt.plot(x3,y3, 'g-')
+    plt.plot(x4,y4, 'b-')
+    plt.plot(x5,y5, 'g-')
+    plt.plot(x6,y6, 'b-')
+    #pl.plot(x,p1(x), 'g-')
+    #pl.plot(x,Return_Y(x), 'b-')
+    plt.show()
     
 if __name__ == "__main__":
     x_i = []
-    PolyFit()
+    #PolyFitRssi()
     X_Buf = Rssi_db()
     plt.title("Rssi to LC")
     plt.xlabel("0.1db")
     plt.ylabel("lc")
     
-    #X_Buf = Get_X()
-    Y_Buf_Old,Y_Buf_New,Y_Buf_Log,x_i = Get_Y(X_Buf)
+    Y_Buf_Old,Y_Buf_New,Y_Buf_Line,x_i = Get_Y(X_Buf)
     plt.plot(x_i, Y_Buf_Old,'.'+'r')
     plt.plot(x_i, Y_Buf_New,'.'+'g')
-    #plt.plot(x_i, Y_Buf_Log,'b')
+    plt.plot(x_i, Y_Buf_Line,'.'+'b')
+    
     plt.show()
     
     
