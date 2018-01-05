@@ -27,6 +27,7 @@ def GetConfig_Param():
     if os.path.exists(INI_Dir):
         f = open(INI_Dir)
         lines = f.readlines()
+        f.close()
         for line in lines:
             if -1 != line.find("Ping_Count="):
                 ping_count_value = int(line[11:])
