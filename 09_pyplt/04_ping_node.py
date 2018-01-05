@@ -9,6 +9,18 @@ IP_s = []
 Faild_IP_S = []
 INI_Dir = "04_ping_node.ini"
 
+def Format_IP(ip):
+    new_ip_s = []
+    point = "."
+    num_c = 0
+    for ip_c in ip.split("."):
+        #print(ip_c)
+        ip_c = int(ip_c)
+        ip_c = str(ip_c)
+        new_ip_s.append(ip_c)
+    ip = point.join(new_ip_s)
+    return ip
+
 def GetConfig_Param():
     ip_s = []
     error_flag = False
@@ -49,8 +61,11 @@ def GetConfig_Param():
 def GetLinkState(ping_count, keyword, ip_s):
     faild_ip_s = []
     for ip in ip_s:
+        #去掉无用的ip地址上为0的字符
+        ip = Format_IP(ip)
         #运行ping程序
-        arg = "ping.exe %s -n %d -w 2000"%(ip,ping_count)
+        arg = "ping.exe %s -n %d"%(ip,ping_count)
+        #print(arg)
         p = subprocess.Popen(arg, 
             stdin = subprocess.PIPE, 
             stdout = subprocess.PIPE, 
@@ -59,6 +74,7 @@ def GetLinkState(ping_count, keyword, ip_s):
         #得到ping的结果
         out = p.stdout.read()  
         out = out.decode('gbk')
+        print("---------------------------------------")
         print(out)
         #找出ping成功的关键字TTL
         if out.find(keyword) == -1:  #没有找到关键字TTL
