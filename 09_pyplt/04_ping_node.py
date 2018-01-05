@@ -61,7 +61,10 @@ def GetConfig_Param():
 
 def GetLinkState(ping_count, keyword, ip_s):
     faild_ip_s = []
+    sum_ip = 0
+    faild_num = 0
     for ip in ip_s:
+        sum_ip += 1
         #去掉无用的ip地址上为0的字符
         ip = Format_IP(ip)
         #运行ping程序
@@ -80,18 +83,23 @@ def GetLinkState(ping_count, keyword, ip_s):
         #找出ping成功的关键字TTL
         if out.find(keyword) == -1:  #没有找到关键字TTL
             faild_ip_s.append(ip)
-    return faild_ip_s
+            faild_num += 1
+    return sum_ip,faild_num, faild_ip_s
              
 def main():
     sum_ip = 0
+    sum_faild = 0
     Error_Flag,Ping_Count,Keyword,IP_s = GetConfig_Param()
     if False == Error_Flag:
-        Faild_IP_S = GetLinkState(Ping_Count,Keyword,IP_s)
+        sum_ip,sum_faild,Faild_IP_S = GetLinkState(Ping_Count,Keyword,IP_s)
         print("**************************************")
-        for faild_ip in Faild_IP_S:
-            sum_ip += 1
-            print(faild_ip)
-        print("sum_ip:%d"%sum_ip)
+        print("sum_ip_num = %d"%sum_ip)
+        print("faild_ip_num = %d"%sum_faild)
+        if sum_faild > 0:
+            print("faild ip as follow:")
+            for faild_ip in Faild_IP_S:
+                print(faild_ip)
+        
         
     
 if __name__ == '__main__':
