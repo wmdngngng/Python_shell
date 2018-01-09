@@ -1,9 +1,15 @@
 import subprocess    
 import os
+import logging
 
 Key_names = ["Ping_Count","Keyword","Ping_IP","Log_Dir","Master_IP"]
 MAC_name = "mac"
 Config_Name = "05_config.ini"
+Log_Name = "Result.log"
+
+logging.basicConfig(level=logging.DEBUG,
+                filename=Log_Name,
+                filemode='w')
 
 def Find_Word(str,word):
     if -1 != str.find(word):
@@ -37,14 +43,14 @@ def Get_Config():
                     if key_name == "Ping_Count":
                         ping_count_v = int(value)
                         if (ping_count_v > 100) or (ping_count_v < 1):
-                            print("Error:Ping_Count > 10) or (Ping_Count <1")
+                            logging.warning("Error:Ping_Count > 10) or (Ping_Count <1")
                             error_flag = True
                     if key_name == "Keyword":
                         keyword_v = value
                     if key_name == "Ping_IP":
                         ping_ip_v = value
                         if (ping_ip_v != "True") and (ping_ip_v != "False"):
-                            print("Ping_IP shuld be True or False.")
+                            logging.warning("Error:Ping_IP shuld be True or False.")
                             error_flag = True
                     if key_name == "Log_Dir":
                         log_dir_v = value
@@ -59,7 +65,7 @@ def Get_Config():
             if mac_v != "False":
                 mac_s.append(mac_v)
     else:
-        print("Error:not find the %s file."%cfg_name)
+        logging.warning("Error:not find the %s file."%cfg_name)
         error_flag = True
         ping_count_v = 4
         keyword_v = ""
@@ -90,10 +96,10 @@ def Get_Log_MAC(log_dir):
                 value = line[15:17]
                 short_mac_logs.append(int(value))
     else:
-        print("Error:not find %s."%log_dir)
+        logging.warning("Error:not find %s."%log_dir)
         error_flag = True
     if short_mac_logs == []:
-        print("Error:there have no Destination addr in %s"%log_dir)
+        logging.warning("Error:there have no Destination addr in %s"%log_dir)
     return error_flag, short_mac_logs
 
 def CompareNode(base_nodes, has_nodes):
@@ -125,17 +131,6 @@ def CompareNode(base_nodes, has_nodes):
             else:
                 add_nodes.append(has_node)
                 add_num += 1
-    #print("sum BaseNode = ",base_num)
-    #print("sum HasNode  = ",has_num)
-    #print("sum LostNode = ",loss_sum)
-    #print("sum AddNode  = ",add_num)
-    #print("Lost Node as follow:")
-    #for loss_node in loss_nodes:
-    #    print(loss_node)
-    #if (has_num + loss_sum) > base_num:
-    #    print("Add Node as follow:")
-    #    for add_node in add_nodes:
-    #        print(add_node)
     return loss_nodes,add_nodes
 
             
@@ -200,31 +195,31 @@ def Get_Print(ping,base_s,mac_s,loss_s,add_s,faild_s):
     for add in add_s:
         add_num += 1
 
-    print("**************************************")
-    print("BaseNode  = %d"%base_num)
-    print("HasNode   = %d"%mac_num)
-    print("LossNode  = %d"%loss_num)
-    print("AddNode   = %d"%add_num)
+    logging.info("**************************************")
+    logging.info("BaseNode  = %d"%base_num)
+    logging.info("HasNode   = %d"%mac_num)
+    logging.info("LossNode  = %d"%loss_num)
+    logging.info("AddNode   = %d"%add_num)
     if ping == "True":
         faild_num = 0
         for faild in faild_s:
             faild_num += 1
-        print("FaildNode = %d"%faild_num)
+        logging.info("FaildNode = %d"%faild_num)
         
     if loss_num > 0:
-        print("Loss Node as follow:")
+        logging.info("Loss Node as follow:")
         for loss in loss_s:
-            print(loss)
+            logging.info(loss)
     if add_num > 0:
-        print("Add Node as follow:")
+        logging.info("Add Node as follow:")
         for add in  add_s:
-            print(add)
+            logging.info(add)
     if ping == "True":
         if faild_num > 0:
-            print("Ping faild ip as follow:")
+            logging.info("Ping faild ip as follow:")
             for faild in faild_s:
-                print(faild)
-    print("**************************************")
+                logging.info(faild)
+    logging.info("**************************************")
     
     
 def main():
