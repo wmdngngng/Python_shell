@@ -125,17 +125,18 @@ def CompareNode(base_nodes, has_nodes):
             else:
                 add_nodes.append(has_node)
                 add_num += 1
-    print("sum BaseNode = ",base_num)
-    print("sum HasNode  = ",has_num)
-    print("sum LostNode = ",loss_sum)
-    print("sum AddNode  = ",add_num)
-    print("Lost Node as follow:")
-    for loss_node in loss_nodes:
-        print(loss_node)
-    if (has_num + loss_sum) > base_num:
-        print("Add Node as follow:")
-        for add_node in add_nodes:
-            print(add_node)
+    #print("sum BaseNode = ",base_num)
+    #print("sum HasNode  = ",has_num)
+    #print("sum LostNode = ",loss_sum)
+    #print("sum AddNode  = ",add_num)
+    #print("Lost Node as follow:")
+    #for loss_node in loss_nodes:
+    #    print(loss_node)
+    #if (has_num + loss_sum) > base_num:
+    #    print("Add Node as follow:")
+    #    for add_node in add_nodes:
+    #        print(add_node)
+    return loss_nodes,add_nodes
 
             
 def Get_IP(ip,short_mac_s):
@@ -186,24 +187,57 @@ def GetLinkState(ping_count, keyword, ip_s):
             faild_ip_s.append(ip)
             faild_num += 1
     return sum_ip,faild_num, faild_ip_s
-            
+
+def Get_Print(ping,base_s,mac_s,loss_s,add_s,faild_s):
+    base_num = mac_num = loss_num = add_num = 0
+        
+    for base in base_s:
+        base_num += 1
+    for mac in mac_s:
+        mac_num += 1
+    for loss in loss_s:
+        loss_num += 1
+    for add in add_s:
+        add_num += 1
+
+    print("**************************************")
+    print("BaseNode  = %d"%base_num)
+    print("HasNode   = %d"%mac_num)
+    print("LossNode  = %d"%loss_num)
+    print("AddNode   = %d"%add_num)
+    if ping == "True":
+        faild_num = 0
+        for faild in faild_s:
+            faild_num += 1
+        print("FaildNode = %d"%faild_num)
+        
+    if loss_num > 0:
+        print("Loss Node as follow:")
+        for loss in loss_s:
+            print(loss)
+    if add_num > 0:
+        print("Add Node as follow:")
+        for add in  add_s:
+            print(add)
+    if ping == "True":
+        if faild_num > 0:
+            print("Ping faild ip as follow:")
+            for faild in faild_s:
+                print(faild)
+    print("**************************************")
+    
+    
 def main():
     error_flag, ping_count_v, Keyword_V, ping_ip_v,log_dir_v,master_ip_v,mac_s = Get_Config()
     if False == error_flag:
         short_mac_base_s = Get_Short_MAC(mac_s)
         error_flag, short_mac_have_s = Get_Log_MAC(log_dir_v)
         if False == error_flag:
-            CompareNode(short_mac_base_s, short_mac_have_s)
+            loss_nodes,add_nodes = CompareNode(short_mac_base_s, short_mac_have_s)
             if ping_ip_v == "True":
                 ip_s = Get_IP(master_ip_v,short_mac_have_s)
                 sum_ip,sum_faild, faild_ip_s = GetLinkState(ping_count_v, Keyword_V, ip_s)
-                print("**************************************")
-                print("sum_ip_num = %d"%sum_ip)
-                print("faild_ip_num = %d"%sum_faild)
-                if sum_faild > 0:
-                    print("faild ip as follow:")
-                    for faild_ip in faild_ip_s:
-                        print(faild_ip)
+            Get_Print(ping_ip_v,short_mac_base_s,short_mac_have_s,loss_nodes,add_nodes,faild_ip_s)
         
     
 if __name__ == '__main__':
