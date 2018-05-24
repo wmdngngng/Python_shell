@@ -3,8 +3,12 @@
 import serial
 import struct
 import binascii
+import numpy as np
 from time import sleep
 from threading import Thread
+from matplotlib import pyplot as plt
+from matplotlib import animation
+
 
 
 
