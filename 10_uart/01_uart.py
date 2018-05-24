@@ -25,11 +25,14 @@ def bcc_off(serial):
 
 def recv(serial):
 	while True:
-		data = serial.read_all()
-		if data == '':
-			continue
-		else:
-			break
+		data = serial.readline()
+		#data = serial.read_all()
+		#if data == '':
+		#	continue
+		#else:
+		#	break
+		if data != b'':
+			print("rx: ",data)
 		sleep(0.01)
 	return data
 
@@ -61,11 +64,11 @@ def Send_CMD():
 	
 
 def UART_Handle():
-	Send_CMD()
-	data = recv(serial)
-	if data != b'':
-		print("receive: ",data)
-		#serial.write(data)
+	while True:
+		data = serial.readline()
+		if data != b'':
+			print("receive: ",data)
+			serial.write(data)
 		
 		
 def DRAW_Handle():
@@ -81,10 +84,12 @@ if __name__ == '__main__':
 		print("failed")
 		
 	bcc_off(serial)	
-	t1 = Thread(target=UART_Handle,args=())
-	t2 = Thread(target=DRAW_Handle,args=())
+	t1 = Thread(target=Send_CMD,args=())
+	t2 = Thread(target=UART_Handle,args=())
+	t3 = Thread(target=DRAW_Handle,args=())
 	t1.start()
 	t2.start()
+	t3.start()
 	
 	#while True:
 		
