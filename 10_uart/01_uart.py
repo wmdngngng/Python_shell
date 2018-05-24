@@ -1,6 +1,8 @@
 #pip install pyserial
 
 import serial
+import struct
+import binascii
 from time import sleep
 from threading import Thread
 
@@ -33,8 +35,8 @@ def recv(serial):
 
 def Send_CMD():
 	while True:
-		tx_header = "A3 3A"
-		
+		tx_header = "A33A"
+		tx_buf = tx_header
 		indata = input("input cmd:W [V] [S]\r\n")
 		cmd_datas = indata.split(" ")
 		cmd_i = 0
@@ -42,13 +44,20 @@ def Send_CMD():
 			print(cmd_data)
 			if cmd_i == 0:
 				if cmd_data == 'w':	#前进
-					tx_header.append('A1')
+					tx_buf += "A1"
 			elif cmd_i == 1:
-				tx_header.append(struct.pack('>l',int(cmd_data)))	#大端
+				bytes_hex1 = struct.pack('>l',int(cmd_data))#大端
+				str_data1 = str(binascii.b2a_hex(bytes_hex1))[2:-1]
+				tx_buf += str_data1
 			elif cmd_i == 2:
-				tx_header.append(struct.pack('>l',int(cmd_data)))
+				bytes_hex2 = struct.pack('>l',int(cmd_data))
+				str_data2 = str(binascii.b2a_hex(bytes_hex2))[2:-1]
+				tx_buf += str_data2
 			cmd_i += 1
-		serial.write(tx_header)	
+		print(tx_buf)
+		tx_buf_b = bytes().fromhex(tx_buf)
+		serial.write(tx_buf_b)
+		sleep(1)
 	
 
 def UART_Handle():
