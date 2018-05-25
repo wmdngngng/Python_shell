@@ -13,13 +13,13 @@ POINTS = 300
 
 fig,ax = plt.subplots()
 
-ax.set_ylim([0, 100])
+ax.set_ylim([0, 100])	#y轴范围
 ax.set_xlim([0, POINTS])
-ax.set_autoscale_on(False)
+ax.set_autoscale_on(False)	#自动调整坐标轴范围关
 
-ax.set_xticks([])
-ax.set_yticks(range(0, 101, 10))
-ax.grid(True)
+ax.set_xticks([])			#x轴坐标刻度为空
+ax.set_yticks(range(0, 101, 10))	#设置y轴坐标刻度
+ax.grid(True)				#打开方格参考线
 
 user = [None] * POINTS
 nice = [None] * POINTS
@@ -37,7 +37,7 @@ ax.legend(loc = 'upper center',
 bg = fig.canvas.copy_from_bbox(ax.bbox)
 
 def prepare_cpu_usage():
-    t = p.cpu_times()
+    t = p.cpu_times()	#获取cpu时间
     if hasattr(t, 'nice'):
         return [t.user, t.nice, t.system, t.idle]
     else: 
