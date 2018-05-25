@@ -106,11 +106,43 @@ def UART_Handle():
 			#print(temp)
 			#print("receive: ",temp)
 			#serial.write(data)
-		
+
+def Draw_Init():
+	line1.set_data([],[])
+	line2.set_data([],[])
+	return line1,line2, 
+	
+def Draw_Animate(i):
+	x1 = np.linspace(0,1,2000)
+	x2 = np.linspace(0,1,2000)
+	y1 = 
+	y2 = 
+	line1.set_data(x1,y1)
+	line2.set_data(x2,y2)
+	return line1,line2,
+			
+def Draw_Plot():
+	fig = plt.figure()
+	ax1 = fig.add_subplot(2,1,1, xlim=(0,2000), ylim=(0,500000))
+	ax2 = fig.add_subplot(2,1,1, xlim=(0,2000), ylim=(0,500000))
+	line1, = ax1.plot([],[],lw=2)
+	line2, = ax2.plot([],[],lw=2)
+	
+	animate = animation.FuncAnimation(fig, Draw_Animate, init_func=Draw_Init, frames=50, interval=10)
+	plt.show
+
 		
 def DRAW_Handle():
 	while True:
-		sleep(10)
+		sleep(0.01)
+		if Right_Data != []:
+			if Right_Data[0] != '':
+				print('R:',Right_Data[0])
+				del Right_Data[0]
+		if Left_Data != []:
+			if Left_Data[0] != '':
+				print('L:',Left_Data[0])
+				del Left_Data[0]
 		#print("hello")
 	
 if __name__ == '__main__':
