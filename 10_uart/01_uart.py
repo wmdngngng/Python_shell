@@ -9,10 +9,15 @@ from threading import Thread
 from matplotlib import pyplot as plt
 from matplotlib import animation
 
+global ax1
+global ax2
+
 REPORT_DATA_LEN = 50
 Right_Data = []
 Left_Data = []
 
+R_xs = []
+R_ys = []
 
 def bcc_off(serial):
 	serial.write(bytes.fromhex('A3 3A 00 01 01 00'))
@@ -113,13 +118,22 @@ def Draw_Init():
 	return line1,line2, 
 	
 def Draw_Animate(i):
-	x1 = np.linspace(0,1,2000)
-	x2 = np.linspace(0,1,2000)
-	y1 = 
-	y2 = 
-	line1.set_data(x1,y1)
-	line2.set_data(x2,y2)
-	return line1,line2,
+	global ax1
+	global ax2
+	
+	if Right_Data != []:
+		if Right_Data[0] != '':
+			y_str = (Right_Data[0])[18:26]
+			y_hex = bytes.fromhex(y_str)
+			y_dec, = struct.unpack('<l',bytes(y_hex))
+			print("r:",y_dec)
+			del Right_Data[0]
+			R_xs.append(i)
+			R_ys.append(y_dec)
+		#xs.append()
+	
+	ax1.clear()
+	ax1.plot(R_xs,R_ys,'b-')
 			
 def Draw_Plot():
 	fig = plt.figure()
@@ -133,17 +147,15 @@ def Draw_Plot():
 
 		
 def DRAW_Handle():
-	while True:
-		sleep(0.01)
-		if Right_Data != []:
-			if Right_Data[0] != '':
-				print('R:',Right_Data[0])
-				del Right_Data[0]
-		if Left_Data != []:
-			if Left_Data[0] != '':
-				print('L:',Left_Data[0])
-				del Left_Data[0]
-		#print("hello")
+	global ax1
+	global ax2
+	fig = plt.figure()
+	ax1 = fig.add_subplot(2,1,1,xlim=(0, 200), ylim=(-4, 400000))
+	ax2 = fig.add_subplot(2,1,2,xlim=(0, 200), ylim=(-4, 400000))
+	#ax2.set_autoscale_on(False)	#自动调整坐标轴范围关
+	#animate = animation.FuncAnimation(fig, Draw_Animate, init_func=Draw_Init, frames=50, interval=10)
+	animate = animation.FuncAnimation(fig, Draw_Animate, interval=10)
+	plt.show()
 	
 if __name__ == '__main__':
 	serial = serial.Serial('COM5', 115200, timeout=0.5)
