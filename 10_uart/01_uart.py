@@ -9,7 +9,9 @@ from threading import Thread
 from matplotlib import pyplot as plt
 from matplotlib import animation
 
-
+REPORT_DATA_LEN = 50
+Right_Data = []
+Left_Data = []
 
 
 def bcc_off(serial):
@@ -47,11 +49,13 @@ def Send_CMD():
 		indata = input("input cmd:W [V] [S]\r\n")
 		cmd_datas = indata.split(" ")
 		cmd_i = 0
+		flag = 0
 		for cmd_data in cmd_datas:
 			print(cmd_data)
 			if cmd_i == 0:
 				if cmd_data == 'w':	#前进
 					tx_buf += "A1"
+					tx_buf += "08"
 			elif cmd_i == 1:
 				bytes_hex1 = struct.pack('>l',int(cmd_data))#大端
 				str_data1 = str(binascii.b2a_hex(bytes_hex1))[2:-1]
@@ -60,19 +64,48 @@ def Send_CMD():
 				bytes_hex2 = struct.pack('>l',int(cmd_data))
 				str_data2 = str(binascii.b2a_hex(bytes_hex2))[2:-1]
 				tx_buf += str_data2
+				flag = 1
 			cmd_i += 1
-		print(tx_buf)
-		tx_buf_b = bytes().fromhex(tx_buf)
-		serial.write(tx_buf_b)
+		if flag == 1:
+			print(tx_buf)
+			tx_buf_b = bytes().fromhex(tx_buf)
+			serial.write(tx_buf_b)
 		sleep(1)
-	
+		
+
+
+def UART_Rx_Decode(data):
+	odd_data = ''
+	decode_datas = data.split('eeeeeeee')
+	for decode_data in decode_datas:
+		if len(decode_data) == REPORT_DATA_LEN:
+			if decode_data[:2] == "01":	#Right_Data
+				Right_Data.append(decode_data)
+			elif decode_data[:2] == "02":	#Left_Data
+				Left_Data.append(decode_data)
+			else:
+				print("error:",decode_data)
+		else:
+			if decode_data[:2] == "01":
+				odd_data = decode_data
+			elif decode_data[:2] == "02":
+				odd_data = decode_data
+			else:
+				print("rx: ",decode_data)
+	return odd_data
 
 def UART_Handle():
+	last_data = ''
 	while True:
 		data = serial.readline()
+		sleep(0.01)
+		
 		if data != b'':
-			print("receive: ",data)
-			serial.write(data)
+			temp = str(binascii.b2a_hex(data))[2:-1]	#str
+			last_data = UART_Rx_Decode(last_data+temp)
+			#print(temp)
+			#print("receive: ",temp)
+			#serial.write(data)
 		
 		
 def DRAW_Handle():
@@ -81,7 +114,7 @@ def DRAW_Handle():
 		#print("hello")
 	
 if __name__ == '__main__':
-	serial = serial.Serial('COM1', 115200, timeout=0.5)
+	serial = serial.Serial('COM5', 115200, timeout=0.5)
 	if serial.isOpen():
 		print("success")
 	else:
