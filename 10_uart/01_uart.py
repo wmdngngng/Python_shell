@@ -11,13 +11,24 @@ from matplotlib import animation
 
 global ax1
 global ax2
+global ax3
+global ax4
 
 REPORT_DATA_LEN = 50
 Right_Data = []
 Left_Data = []
 
 R_xs = []
-R_ys = []
+R_v_cur = []
+R_err = []
+R_err1 = []
+R_err2 = []
+
+L_xs = []
+L_v_cur = []
+L_err = []
+L_err1 = []
+L_err2 = []
 
 def bcc_off(serial):
 	serial.write(bytes.fromhex('A3 3A 00 01 01 00'))
@@ -47,6 +58,17 @@ def recv(serial):
 		sleep(0.01)
 	return data
 
+def Clear_Buf():
+	global R_xs
+	global R_v_cur
+	global L_xs
+	global L_v_cur
+	
+	R_xs = []
+	R_v_cur = []
+	L_xs = []
+	L_v_cur = []
+	
 def Send_CMD():
 	while True:
 		tx_header = "A33A"
@@ -75,7 +97,11 @@ def Send_CMD():
 			print(tx_buf)
 			tx_buf_b = bytes().fromhex(tx_buf)
 			serial.write(tx_buf_b)
-		sleep(1)
+			
+			Clear_Buf()
+			
+			
+		#sleep(1)
 		
 
 
@@ -85,6 +111,7 @@ def UART_Rx_Decode(data):
 	for decode_data in decode_datas:
 		if len(decode_data) == REPORT_DATA_LEN:
 			if decode_data[:2] == "01":	#Right_Data
+				#print('R:',decode_data)
 				Right_Data.append(decode_data)
 			elif decode_data[:2] == "02":	#Left_Data
 				Left_Data.append(decode_data)
@@ -103,7 +130,7 @@ def UART_Handle():
 	last_data = ''
 	while True:
 		data = serial.readline()
-		sleep(0.01)
+		#sleep(0.01)
 		
 		if data != b'':
 			temp = str(binascii.b2a_hex(data))[2:-1]	#str
@@ -120,41 +147,73 @@ def Draw_Init():
 def Draw_Animate(i):
 	global ax1
 	global ax2
+	global ax3
+	global ax4
+	global R_xs
+	global R_v_cur
 	
 	if Right_Data != []:
 		if Right_Data[0] != '':
-			y_str = (Right_Data[0])[18:26]
-			y_hex = bytes.fromhex(y_str)
-			y_dec, = struct.unpack('<l',bytes(y_hex))
-			print("r:",y_dec)
+			#y_str = (Right_Data[0])[18:26]
+			r_y_str = (Right_Data[0])[2:]
+			r_y_hex = bytes.fromhex(r_y_str)
+			r_num,r_v_dst,r_v_cur,r_err,r_err1,r_err2 = struct.unpack('<llllll',bytes(r_y_hex))
+			print("r:",r_num,r_v_dst,r_v_cur,r_err,r_err1,r_err2)
 			del Right_Data[0]
-			R_xs.append(i)
-			R_ys.append(y_dec)
-		#xs.append()
+			if r_num != 0:
+				R_xs.append(r_num)
+				R_v_cur.append(r_v_cur)
+				R_err.append(r_err)
+				R_err1.append(r_err1)
+				R_err2.append(r_err2)
 	
-	ax1.clear()
-	ax1.plot(R_xs,R_ys,'b-')
+	if Left_Data != []:
+		if Left_Data[0] != '':
+			l_y_str = (Left_Data[0])[2:]
+			l_y_hex = bytes.fromhex(l_y_str)
+			l_num,l_v_dst,l_v_cur,l_err,l_err1,l_err2 = struct.unpack('<llllll',bytes(l_y_hex))
+			print('l:',l_num,l_v_dst,l_v_cur,l_err,l_err1,l_err2)
+			del Left_Data[0]
+			if l_num != 0:
+				L_xs.append(l_num)
+				L_v_cur.append(l_v_cur)
+				L_err.append(l_err)
+				L_err1.append(l_err1)
+				L_err2.append(l_err2)
 			
-def Draw_Plot():
-	fig = plt.figure()
-	ax1 = fig.add_subplot(2,1,1, xlim=(0,2000), ylim=(0,500000))
-	ax2 = fig.add_subplot(2,1,1, xlim=(0,2000), ylim=(0,500000))
-	line1, = ax1.plot([],[],lw=2)
-	line2, = ax2.plot([],[],lw=2)
+	#ax1.clear()
+	ax1.plot(R_xs,R_v_cur,'b-')
+	ax3.plot(R_xs,R_err,'r-',label='err')
+	ax3.plot(R_xs,R_err1,'g-',label='err1')		
+	ax3.plot(R_xs,R_err2,'b-',label='err2')
 	
-	animate = animation.FuncAnimation(fig, Draw_Animate, init_func=Draw_Init, frames=50, interval=10)
-	plt.show
+	ax2.plot(L_xs,L_v_cur,'b-')
+	ax4.plot(L_xs,L_err,'r-',label='err')
+	ax4.plot(L_xs,L_err1,'g-',label='err1')
+	ax4.plot(L_xs,L_err2,'b-',label='err2')
 
 		
 def DRAW_Handle():
 	global ax1
 	global ax2
+	global ax3
+	global ax4
 	fig = plt.figure()
-	ax1 = fig.add_subplot(2,1,1,xlim=(0, 200), ylim=(-4, 400000))
-	ax2 = fig.add_subplot(2,1,2,xlim=(0, 200), ylim=(-4, 400000))
-	#ax2.set_autoscale_on(False)	#自动调整坐标轴范围关
+	ax1 = fig.add_subplot(2,2,1)
+	ax2 = fig.add_subplot(2,2,2)
+	ax3 = fig.add_subplot(2,2,3)
+	ax4 = fig.add_subplot(2,2,4)
+	ax1.set_title('Right wheel')
+	ax2.set_title('Left wheel')
+	ax3.set_title('Right error')
+	ax4.set_title('Left error')
+	ax1.grid(True,color='k')	#显示网格
+	ax2.grid(True,color='k')
+	ax3.grid(True,color='k')
+	ax4.grid(True,color='k')
+	#ax2.grid(True,color='k')
 	#animate = animation.FuncAnimation(fig, Draw_Animate, init_func=Draw_Init, frames=50, interval=10)
-	animate = animation.FuncAnimation(fig, Draw_Animate, interval=10)
+	animate = animation.FuncAnimation(fig, Draw_Animate, interval=100)
 	plt.show()
 	
 if __name__ == '__main__':
