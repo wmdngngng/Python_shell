@@ -14,7 +14,7 @@ global ax2
 global ax3
 global ax4
 
-REPORT_DATA_LEN = 50
+REPORT_DATA_LEN = 58
 Right_Data = []
 Left_Data = []
 
@@ -154,11 +154,11 @@ def Draw_Animate(i):
 	
 	if Right_Data != []:
 		if Right_Data[0] != '':
-			#y_str = (Right_Data[0])[18:26]
 			r_y_str = (Right_Data[0])[2:]
 			r_y_hex = bytes.fromhex(r_y_str)
-			r_num,r_v_dst,r_v_cur,r_err,r_err1,r_err2 = struct.unpack('<llllll',bytes(r_y_hex))
-			print("r:",r_num,r_v_dst,r_v_cur,r_err,r_err1,r_err2)
+			#print(Right_Data[0])
+			r_num,r_v_dst,r_v_cur,r_err,r_err1,r_err2,r_inc = struct.unpack('<lllllll',bytes(r_y_hex))
+			print("r:%5d %8d %8d %8d %8d %8d %10d"%(r_num,r_v_dst,r_v_cur,r_err,r_err1,r_err2,r_inc))
 			del Right_Data[0]
 			if r_num != 0:
 				R_xs.append(r_num)
@@ -171,8 +171,8 @@ def Draw_Animate(i):
 		if Left_Data[0] != '':
 			l_y_str = (Left_Data[0])[2:]
 			l_y_hex = bytes.fromhex(l_y_str)
-			l_num,l_v_dst,l_v_cur,l_err,l_err1,l_err2 = struct.unpack('<llllll',bytes(l_y_hex))
-			print('l:',l_num,l_v_dst,l_v_cur,l_err,l_err1,l_err2)
+			l_num,l_v_dst,l_v_cur,l_err,l_err1,l_err2,l_inc = struct.unpack('<lllllll',bytes(l_y_hex))
+			print('l:%5d %8d %8d %8d %8d %8d %10d'%(l_num,l_v_dst,l_v_cur,l_err,l_err1,l_err2,l_inc))
 			del Left_Data[0]
 			if l_num != 0:
 				L_xs.append(l_num)
@@ -211,7 +211,6 @@ def DRAW_Handle():
 	ax2.grid(True,color='k')
 	ax3.grid(True,color='k')
 	ax4.grid(True,color='k')
-	#ax2.grid(True,color='k')
 	#animate = animation.FuncAnimation(fig, Draw_Animate, init_func=Draw_Init, frames=50, interval=10)
 	animate = animation.FuncAnimation(fig, Draw_Animate, interval=100)
 	plt.show()
