@@ -158,6 +158,7 @@ def Draw_Animate(i):
 			r_y_hex = bytes.fromhex(r_y_str)
 			#print(Right_Data[0])
 			r_num,r_v_dst,r_v_cur,r_err,r_err1,r_err2,r_inc = struct.unpack('<lllllll',bytes(r_y_hex))
+			r_inc = r_inc/30000
 			print("r:%5d %8d %8d %8d %8d %8d %10d"%(r_num,r_v_dst,r_v_cur,r_err,r_err1,r_err2,r_inc))
 			del Right_Data[0]
 			if r_num != 0:
@@ -172,6 +173,7 @@ def Draw_Animate(i):
 			l_y_str = (Left_Data[0])[2:]
 			l_y_hex = bytes.fromhex(l_y_str)
 			l_num,l_v_dst,l_v_cur,l_err,l_err1,l_err2,l_inc = struct.unpack('<lllllll',bytes(l_y_hex))
+			l_inc = l_inc/30000
 			print('l:%5d %8d %8d %8d %8d %8d %10d'%(l_num,l_v_dst,l_v_cur,l_err,l_err1,l_err2,l_inc))
 			del Left_Data[0]
 			if l_num != 0:
