@@ -13,8 +13,9 @@ global ax1
 global ax2
 global ax3
 global ax4
+global ax5
 
-REPORT_DATA_LEN = 58
+REPORT_DATA_LEN = 66
 Right_Data = []
 Left_Data = []
 
@@ -23,12 +24,14 @@ R_v_cur = []
 R_err = []
 R_err1 = []
 R_err2 = []
+R_count = []
 
 L_xs = []
 L_v_cur = []
 L_err = []
 L_err1 = []
 L_err2 = []
+L_count = []
 
 def bcc_off(serial):
 	serial.write(bytes.fromhex('A3 3A 00 01 01 00'))
@@ -109,6 +112,7 @@ def UART_Rx_Decode(data):
 	odd_data = ''
 	decode_datas = data.split('eeeeeeee')
 	for decode_data in decode_datas:
+		#print('x:%d ',len(decode_data),decode_data)
 		if len(decode_data) == REPORT_DATA_LEN:
 			if decode_data[:2] == "01":	#Right_Data
 				#print('R:',decode_data)
@@ -149,6 +153,7 @@ def Draw_Animate(i):
 	global ax2
 	global ax3
 	global ax4
+	global ax5
 	global R_xs
 	global R_v_cur
 	
@@ -157,9 +162,9 @@ def Draw_Animate(i):
 			r_y_str = (Right_Data[0])[2:]
 			r_y_hex = bytes.fromhex(r_y_str)
 			#print(Right_Data[0])
-			r_num,r_v_dst,r_v_cur,r_err,r_err1,r_err2,r_inc = struct.unpack('<lllllll',bytes(r_y_hex))
+			r_num,r_v_dst,r_v_cur,r_err,r_err1,r_err2,r_inc,r_count = struct.unpack('<llllllll',bytes(r_y_hex))
 			r_inc = r_inc/30000
-			print("r:%5d %8d %8d %8d %8d %8d %10d"%(r_num,r_v_dst,r_v_cur,r_err,r_err1,r_err2,r_inc))
+			print("r:%5d %8d %8d %8d %8d %8d %8d %8d"%(r_num,r_v_dst,r_v_cur,r_err,r_err1,r_err2,r_inc,r_count))
 			del Right_Data[0]
 			if r_num != 0:
 				R_xs.append(r_num)
@@ -167,14 +172,15 @@ def Draw_Animate(i):
 				R_err.append(r_err)
 				R_err1.append(r_err1)
 				R_err2.append(r_err2)
+				R_count.append(r_count)
 	
 	if Left_Data != []:
 		if Left_Data[0] != '':
 			l_y_str = (Left_Data[0])[2:]
 			l_y_hex = bytes.fromhex(l_y_str)
-			l_num,l_v_dst,l_v_cur,l_err,l_err1,l_err2,l_inc = struct.unpack('<lllllll',bytes(l_y_hex))
+			l_num,l_v_dst,l_v_cur,l_err,l_err1,l_err2,l_inc,l_count = struct.unpack('<llllllll',bytes(l_y_hex))
 			l_inc = l_inc/30000
-			print('l:%5d %8d %8d %8d %8d %8d %10d'%(l_num,l_v_dst,l_v_cur,l_err,l_err1,l_err2,l_inc))
+			print('l:%5d %8d %8d %8d %8d %8d %8d %8d'%(l_num,l_v_dst,l_v_cur,l_err,l_err1,l_err2,l_inc,l_count))
 			del Left_Data[0]
 			if l_num != 0:
 				L_xs.append(l_num)
@@ -182,37 +188,47 @@ def Draw_Animate(i):
 				L_err.append(l_err)
 				L_err1.append(l_err1)
 				L_err2.append(l_err2)
+				L_count.append(l_count)
 			
 	#ax1.clear()
 	ax1.plot(R_xs,R_v_cur,'b-')
 	ax3.plot(R_xs,R_err,'r-',label='err')
 	ax3.plot(R_xs,R_err1,'g-',label='err1')		
 	ax3.plot(R_xs,R_err2,'b-',label='err2')
+	ax5.plot(R_xs,R_count,'r*',label='r_count')
 	
 	ax2.plot(L_xs,L_v_cur,'b-')
 	ax4.plot(L_xs,L_err,'r-',label='err')
 	ax4.plot(L_xs,L_err1,'g-',label='err1')
 	ax4.plot(L_xs,L_err2,'b-',label='err2')
-
+	ax5.plot(L_xs,L_count,'g*',label='l_count')
+	
 		
 def DRAW_Handle():
 	global ax1
 	global ax2
 	global ax3
 	global ax4
+	global ax5
 	fig = plt.figure()
-	ax1 = fig.add_subplot(2,2,1)
-	ax2 = fig.add_subplot(2,2,2)
-	ax3 = fig.add_subplot(2,2,3)
-	ax4 = fig.add_subplot(2,2,4)
+	ax1 = fig.add_subplot(3,2,1)
+	ax2 = fig.add_subplot(3,2,2)
+	ax3 = fig.add_subplot(3,2,3)
+	ax4 = fig.add_subplot(3,2,4)
+	ax5 = fig.add_subplot(3,2,5)
+	
 	ax1.set_title('Right wheel')
 	ax2.set_title('Left wheel')
 	ax3.set_title('Right error')
 	ax4.set_title('Left error')
+	ax4.set_title('Left error')
+	ax5.set_title('Count')
+	
 	ax1.grid(True,color='k')	#显示网格
 	ax2.grid(True,color='k')
 	ax3.grid(True,color='k')
 	ax4.grid(True,color='k')
+	ax5.grid(True,color='k')
 	#animate = animation.FuncAnimation(fig, Draw_Animate, init_func=Draw_Init, frames=50, interval=10)
 	animate = animation.FuncAnimation(fig, Draw_Animate, interval=100)
 	plt.show()
