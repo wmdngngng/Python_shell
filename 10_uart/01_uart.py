@@ -91,7 +91,7 @@ def Send_CMD():
 	while True:
 		tx_header = "A33A"
 		tx_buf = tx_header
-		indata = input("input cmd:W [V] [S]\r\n")
+		indata = input("\r\nw [v] [s]:  线速度 距离\r\nd [w] [deg]:角速度 角度\r\nq [v] [w]:  线速度 角速度\r\ninput cmd:")
 		cmd_datas = indata.split(" ")
 		cmd_i = 0
 		flag = 0
@@ -99,9 +99,16 @@ def Send_CMD():
 		for cmd_data in cmd_datas:
 			print(cmd_data)
 			if cmd_i == 0:
-				if cmd_data == 'w':	#前进
+				if cmd_data == 'q':		#线速度 角速度
+					tx_buf += 'A0'
+					tx_buf += '08'
+				elif cmd_data == 'w':	#线速度 距离
 					tx_buf += "A1"
 					tx_buf += "08"
+				elif cmd_data == 'd':	#角速度 度
+					tx_buf += 'A2'
+					tx_buf += '08'
+					
 			elif cmd_i == 1:
 				bytes_hex1 = struct.pack('>l',int(cmd_data))#大端
 				str_data1 = str(binascii.b2a_hex(bytes_hex1))[2:-1]
