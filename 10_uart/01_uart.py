@@ -167,7 +167,7 @@ def UART_Handle():
 		else:
 			if 1==has_data:
 				count = count+1
-				if count > 20:
+				if count > 9:
 					finish_data = 1
 					has_data = 0
 					print("xx")
