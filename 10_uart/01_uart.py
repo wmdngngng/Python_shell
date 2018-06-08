@@ -239,7 +239,7 @@ def Draw_Plot():
 		
 		min_len = min_len-5
 		for i in range(min_len):
-			print(i,R_count[i], L_count[i],file = f)
+			print(i,R_count[i], L_count[i],(R_count[i]-L_count[i]),file = f)
 			Err_Count.append(R_count[i]-L_count[i])
 		
 		ax1.plot(R_xs,R_v_cur,'b-')
