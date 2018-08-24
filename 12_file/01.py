@@ -27,18 +27,16 @@ if __name__ == '__main__':
 			if UNIT_BYTE == 2:
 				f_o.write("unsigned short const array[] = {\n")
 			lines = f_i.read()
-			print(lines)
-			#for line in lines:
-			#print("line:",line)
+			#print(lines)
 			line_str = str(binascii.b2a_hex(lines))[2:-1]
-			print(line_str)
+			#print(line_str)
 			lens = len(line_str)
 			unit_count = UNIT_BYTE*2
 			lens_for = int(lens/unit_count)
 			for i in range(0,lens_for):
 				unit_byte = line_str[:4]
 				line_str = line_str[4:]
-				print(unit_byte)
+				#print(unit_byte)
 				f_o.write("0x"+unit_byte+",\n")
 			
 			f_o.write("};\n")
