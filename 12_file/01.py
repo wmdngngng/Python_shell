@@ -35,6 +35,9 @@ if __name__ == '__main__':
 			lens_for = int(lens/unit_count)
 			for i in range(0,lens_for):
 				unit_byte = line_str[:4]
+				low_byte = unit_byte[:2]
+				high_byte = unit_byte[2:]
+				unit_byte = high_byte+low_byte
 				line_str = line_str[4:]
 				#print(unit_byte)
 				f_o.write("0x"+unit_byte+",\n")
