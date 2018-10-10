@@ -3,7 +3,25 @@ import wmi
 import win32file
 import pywintypes
 import win32con
+import struct
 
+OUT_FILE = "merge.bin"
+
+Offset1 = 0x0
+Offset2 = 0x800
+Offset3 = 0xa00
+Offset4 = 0x2000
+
+def creat_bin(file,size):
+
+    bin_file = open(file, 'wb')
+    value = struct.pack('B',0x00)
+    offset = 0
+    while offset < size:
+        bin_file.write(value)
+        offset = bin_file.tell()
+    bin_file.close()
+    
 
 def get_disk_info():
     c = wmi.WMI()
@@ -109,14 +127,32 @@ def get_removable_logical():
             #    result, data = win32file.ReadFile(hfile, 512, None)
             #    buf += data
             hfile.Close()
+            
+def get_filesize():
+    size = os.path.getsize("./uboot_evb.img")
+    print("size=%d"%(size))
+    
+def merge_bin(a, b, merge):
+    bin_a = open(a, 'rb')
+    bin_b = open(b, 'rb')
+    bin_merge = open("./"+merge, 'ab')
+    data_a = bin_a.read()
+    data_b = bin_b.read()
+    bin_merge.write(data_a)
+    bin_merge.write(data_b)
+    bin_a.close()
+    bin_b.close()
+    bin_merge.close()
     
 if __name__ == '__main__':
     #get_disk_info()
-    get_removable_disk()
+    ##get_removable_disk()
     #print(disk_list)
     #get_logic_info()
     #get_removable_disk()
-    
-    
+    #get_filesize()
+    #merge_bin("a.bin", "b.bin", OUT_FILE)
+    creat_bin("c.bin",12)
+    http://www.bubuko.com/infodetail-2756676.html
 #data = os.popen("df -h").read()
 #print(data)
