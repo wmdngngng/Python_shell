@@ -53,6 +53,7 @@ def merge():
     offset = file_out.tell()
     file.close()
     print(index,BIN_FILES[index-1][0],"%dB=%dKB=%dMB"%(offset,offset/1024,offset/1024/1024))
+    print("sector:%f"%(offset/512))
     
 def get_removable_disk():
     index = 0
@@ -84,13 +85,8 @@ def get_removable_disk():
             data = file.read()
             win32file.WriteFile(hfile, data)
             hfile.Close()
-            #hfile=win32file.CreateFile("\\\\.\\"+disk_name, win32con.GENERIC_READ|win32con.GENERIC_WRITE,
-            #    win32con.FILE_SHARE_READ|win32con.FILE_SHARE_WRITE,
-            #    None, win32con.OPEN_EXISTING, 0 , None)
-            #result, data = win32file.ReadFile(hfile, 512)
-            #print(result,data)
-            #hfile.Close()
+            print("\r\nSUCCESS: SD write finash!")
             
 if __name__ == '__main__':
-    #merge()
-    get_removable_disk()
+    merge()
+    #get_removable_disk()
