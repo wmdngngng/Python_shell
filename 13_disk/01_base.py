@@ -5,13 +5,6 @@ import pywintypes
 import win32con
 import struct
 
-OUT_FILE = "merge.bin"
-
-Offset1 = 0x0
-Offset2 = 0x800
-Offset3 = 0xa00
-Offset4 = 0x2000
-
 def creat_bin(file,size):
 
     bin_file = open(file, 'wb')
@@ -144,6 +137,9 @@ def merge_bin(a, b, merge):
     bin_b.close()
     bin_merge.close()
     
+
+    
+    
 if __name__ == '__main__':
     #get_disk_info()
     ##get_removable_disk()
@@ -152,7 +148,8 @@ if __name__ == '__main__':
     #get_removable_disk()
     #get_filesize()
     #merge_bin("a.bin", "b.bin", OUT_FILE)
-    creat_bin("c.bin",12)
-    http://www.bubuko.com/infodetail-2756676.html
+    #creat_bin("c.bin",12)
+    
+    
 #data = os.popen("df -h").read()
 #print(data)
