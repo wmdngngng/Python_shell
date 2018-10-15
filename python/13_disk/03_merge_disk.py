@@ -1,9 +1,10 @@
-import os
+import os,sys
 import wmi
 import win32file
 import pywintypes
 import win32con
 import struct
+import ctypes
 
 BIN_OUT     = "jiaxing_evb.bin"
 SECTOR_SIZE = 512
@@ -85,8 +86,13 @@ def get_removable_disk():
             data = file.read()
             win32file.WriteFile(hfile, data)
             hfile.Close()
+            file.close()
             print("\r\nSUCCESS: SD write finash!")
             
 if __name__ == '__main__':
+    path_file = sys.path[0]
+    os.chdir(path_file)
     merge()
-    #get_removable_disk()
+    if ctypes.windll.shell32.IsUserAnAdmin():
+        print("Run as Administrators.")
+    get_removable_disk()
