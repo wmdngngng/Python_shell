@@ -90,7 +90,8 @@ def get_removable_disk():
             print("\r\nSUCCESS: SD write finash!")
             
 if __name__ == '__main__':
-    path_file = sys.path[0]
+    path_file = os.getcwd()
+    print(path_file)
     os.chdir(path_file)
     merge()
     if ctypes.windll.shell32.IsUserAnAdmin():
